@@ -1,0 +1,324 @@
+<!--筛选-->
+<template>
+   <view class="info">
+    <view class="info-top-txt">
+      <view class="info-top-title">好友助力，免费喝咖啡~</view>
+      <view class="info-top-subtitle">每位好友可主力0.1~0.5杯成长咖啡给你</view>
+      <view class="info-top-subtitle">新用户可免费助力0.1杯</view>
+    </view>
+    <view class="info-top">
+      <view class="info-top-select" @tap="openShowSelect" wx:if="{{selectItem!=''}}">
+       <image class="info-top-img" mode="{{selectItem.imageUrl}}" src="{{selectItem.imageUrl}}"/> 
+       <view  class="info-top-desc">
+         <view  class="info-top-name">{{selectItem.goodsName}}</view>
+        <view  class="info-top-zhu">需要{{selectItem.growCafe/10000}}杯成长咖啡助力</view>
+       </view>
+      </view>
+      <view class="info-top-select" @tap="openShowSelect" wx:else>
+       <image class="info-top-img" mode="https://images.lyancafe.com/salegoods/1526458528866.png" src="https://images.lyancafe.com/salegoods/1526458528866.png"/> 
+       <view  class="info-top-desc">
+         <view  class="info-top-name">生气的冷萃</view>
+        <view  class="info-top-zhu">需要1.2杯成长咖啡助力</view>
+       </view>
+      </view>
+    </view>
+    <view class="info-top-type" wx:if="{{showItem}}">
+       <view  class="info-top-desc" wx:for="{{items}}" wx:key='this' @tap="selectedItem" data-item="{{item}}" >
+         <image class="info-top-img" mode="{{item.imageUrl}}" src="{{item.imageUrl}}"/>
+         <view  class="info-top-name">{{item.goodsName}}</view>
+         <view  class="info-top-zhu">需{{item.growCafe/10000}}助力</view>
+       </view>
+       
+    </view>
+    <view class="info-center">
+      <txt class="info-center-title">选张照片作为心愿回报吧~</txt>
+      <view class="info-center-jiaimg" @tap="chooseImage" wx:if="{{from.imageUrl==''}}">
+        <view class="info-center-jia">+</view>
+        <view class="info-center-des">好友助力后才可见奥</view>
+      </view>
+      <view class="info-center-jiaimg" @tap="chooseImage" wx:else>
+        <image class="info-top-img" mode="{{from.imageUrl}}" src="{{from.imageUrl}}"/>
+      </view>
+    </view>
+    <view class="info-center">
+      <txt class="info-center-title">为你的心愿拉个票</txt>
+       <textarea class="info-center-input"  bindblur="bindTextAreaBlur" auto-height placeholder="用压箱底照片换一杯咖啡，大佬们赏个脸呗~" />
+    </view>
+    <view class="info-bottom" @tap="onShareAppMessage">
+      邀请好友助力
+    </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+
+export default class Filter extends wepy.page {
+  config = {
+    navigationBarTitleText: '云咖啡',
+    backgroundTextStyle: 'dark',
+    navigationBarBackgroundColor: '#de5b41',
+    navigationBarTextStyle: '#fff',
+    enablePullDownRefresh: false,
+    backgroundColor: '#de5b41'
+  }
+  data = {
+    showItem:false,
+    selectItem:'',
+    from:{
+      "saleGoodsId": 10789, 
+      "growCafe": 12000, 
+      "goodsDesc": "生气的冷萃", 
+      "imageUrl": ""
+    },
+    items: [
+            {
+                "saleGoodsId": 10789, 
+                "growCafe": 12000, 
+                "goodsName": "生气的冷萃", 
+                "imageUrl": "https://images.lyancafe.com/salegoods/1526458528866.png"
+            }, 
+            {
+                "saleGoodsId": 10792, 
+                "growCafe": 12000, 
+                "goodsName": "冰焦糖拿铁", 
+                "imageUrl": "https://images.lyancafe.com/salegoods/1526525783471.png"
+            }, 
+            {
+                "saleGoodsId": 10791, 
+                "growCafe": 12000, 
+                "goodsName": "冰榛果拿铁", 
+                "imageUrl": "https://images.lyancafe.com/salegoods/1526525453134.png"
+            }, 
+            {
+                "saleGoodsId": 10790, 
+                "growCafe": 12000, 
+                "goodsName": "生气的粉椰", 
+                "imageUrl": "https://images.lyancafe.com/salegoods/1526548321042.png"
+            }, 
+            {
+                "saleGoodsId": 10685, 
+                "growCafe": 15000, 
+                "goodsName": "防弹咖啡", 
+                "imageUrl": "https://images.lyancafe.com/salegoods/1522815533303.png"
+            }, 
+            {
+                "saleGoodsId": 10773, 
+                "growCafe": 15000, 
+                "goodsName": "牛油果雪昔", 
+                "imageUrl": "https://images.lyancafe.com/salegoods/1526523674764.png"
+            }
+        ]
+  }
+  components = {
+
+  }
+
+  onLoad() {
+    this.selectItem={
+                "saleGoodsId": 10773, 
+                "growCafe": 15000, 
+                "goodsName": "牛油果雪昔", 
+                "imageUrl": "https://images.lyancafe.com/salegoods/1526523674764.png"
+            }
+  }
+  computed = {
+
+  }
+  methods = {
+      SearchFilter(){
+        console.log("^66666")
+      },
+      selectedItem(e) {
+        this.selectItem = e.currentTarget.dataset.item;
+        this.showItem = this.showItem ? false : true
+      },
+      openShowSelect(){
+        this.showItem = this.showItem ? false : true
+      },
+      chooseImage(){//选取图片
+        let _this=this
+          wepy.chooseImage({
+          count: 1, // 默认9
+          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+          sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+          success: function (res) {
+            // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+            console.log(res.tempFilePaths)
+            _this.form.imageUrl = res.tempFilePaths
+            _this.$apply();
+          },
+          fail: function(res) {
+            // fail
+            console.log(res)
+          },
+          complete: function(res) {
+            console.log(res)
+            // complete
+          }
+        })
+        _this.from.imageUrl ='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1531211342982&di=b827d08f24885a0ba08405553bdd8665&imgtype=0&src=http%3A%2F%2Ffile.muyee.com%2Fimages%2Fupload%2FImage%2F20141209091754.jpg'
+        _this.$apply();
+      }
+  }
+
+  /**
+   * 页面分享
+   */
+  onShareAppMessage (){
+    const imageUrl = this.selectItem.imageUrl
+    const shareName = `${this.selectItem.goodsName} 底价低至1元，快邀请好友帮你助力吧~`
+    return {
+      title: shareName,
+      imageUrl: imageUrl,
+      path: `/pages/coffee`
+    }
+  }
+
+  events = {
+
+  }
+
+}
+
+</script>
+<style lang="less">
+page {
+  background: rgb(245, 245, 245);
+  .info{
+    background-image: url(https://resources.dftoutiao.com/apprentice2/static/img/qfbg.3dbf06f.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: top;
+    padding:0 25rpx;
+    .info-top-txt{
+      border-radius:25rpx;
+      height:200rpx;
+      padding: 40rpx 0;
+      .info-top-title{
+         height:100rpx;
+         font-size: 50rpx;
+         font-weight: 500;
+         color: #fff;
+      }
+      .info-top-subtitle{
+          font-size: 30rpx;
+          color: #fff;
+      }
+    }
+    .info-top{
+      background: #fff;
+      border-radius: 25rpx;
+      position:relative;
+      z-index: 100;
+      box-shadow:0px 2px 0px rgb(238, 238, 238);
+      .info-top-select{
+        padding: 20rpx;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        .info-top-img{
+          width: 140rpx;
+          height: 140rpx;
+        }
+        .info-top-desc{
+          display: flex;
+          flex-flow: column nowrap;
+          justify-content: space-around;
+          padding: 10rpx 20rpx 10rpx;
+        }
+        .info-top-name{
+          padding-bottom: 10rpx;
+          font-size: 32rpx;
+          color: #0f0f0f;
+          font-weight: 600;
+        }
+        .info-top-zhu{
+          color: #575050;
+          font-size: 30rpx;
+        }
+      }
+    }
+    .info-top-type{
+        padding: 20rpx;
+        margin: 20rpx;
+        margin-top: -20rpx;
+        background:#fff;
+        border-radius: 25rpx;
+        display: flex;
+        flex-flow: row wrap;
+        padding-top:40rpx;
+        justify-content: space-around;
+        .info-top-img{
+          width: 140rpx;
+          height: 130rpx;
+        }
+        .info-top-desc{
+          display: flex;
+          flex-flow: column nowrap;
+          justify-content: space-around;
+          padding: 10rpx 20rpx 10rpx;
+          margin-bottom:30rpx;
+        }
+        .info-top-name{
+          padding-bottom: 10rpx;
+          font-size: 28rpx;
+          color: #0f0f0f;
+          font-weight: 600;
+        }
+        .info-top-zhu{
+          color: #575050;
+          font-size: 24rpx;
+        }
+      }
+
+    .info-center{
+      background: #fff;
+      margin: 30rpx 0;
+      padding: 30rpx 30rpx;
+      border-radius: 25rpx;
+      .info-center-jiaimg{
+        height:200rpx;
+        .info-center-jia{
+          font-size:80rpx;
+          color:rgb(255, 99, 85);
+          text-align:center;
+          font-weight:600;
+        }
+        .info-top-img{
+            width: 620rpx;
+            height: 170rpx;
+            border-radius: 25rpx;
+            filter:blur(3px);
+        }
+        .info-center-des{
+          font-size: 28rpx;
+          text-align: center
+        }
+      }
+      
+      .info-center-title{
+        font-size: 30rpx;
+        color: #0f0f0f;
+        font-weight: 600;
+      }
+      .info-center-input{
+        margin: 20rpx 0;
+        width: 510rpx;
+        min-height: 70rpx;
+      }
+    }
+    .info-bottom{
+      background:#f54;
+      margin:30rpx auto;
+      padding:20rpx 20rpx;
+      border-radius:40rpx;
+      text-align:center;
+      width:280rpx;
+      color:#fff;
+    }
+  }
+}
+
+
+
+</style>

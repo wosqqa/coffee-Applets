@@ -1,0 +1,445 @@
+<template>
+  <view class="info">
+    <view class="header">
+      <view class="header_content">
+        <image class="imageUrl" src="{{goodsDeatil.detailVo.imageUrl}}"></image>
+        <view class="content">
+          <view class="title">
+              {{goodsDeatil.detailVo.name}}
+              <text class="text_label" wx:if="{{goodsDeatil.detailVo.groupType[0].groupAccount==1}}">一人团</text>
+              <text class="text_label" wx:if="{{goodsDeatil.detailVo.groupType[0].groupAccount==3}}">三人团</text>
+              <text class="text_label" wx:if="{{goodsDeatil.detailVo.groupType[0].groupAccount==5}}">五人团</text>
+          </view>
+          <view class="tip_title">
+            【老带新团】老用户可开团，新用户可参加/开团下单需另付5元配送费
+          </view>
+          <view class="sub_title">
+            {{goodsDeatil.detailVo.description}}
+          </view>
+          <view class="price">
+            <view class="text_price">￥{{goodsDeatil.detailVo.groupType[0].price}} 
+               <text class="text_label2" >拼团价</text>
+               <text class="text_oldPrice" >{{goodsDeatil.detailVo.oldPrice}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="rule">
+          <view class="rule_title">
+            拼团玩法
+          </view>
+          <view class="rule_content">
+              <text class="content_t"><text  class="content_li">1</text> 选择商品，开团或拼团</text>
+              <text class="content_t"><text  class="content_li">2</text>付款后邀请好友参团</text>
+              <text class="content_t"><text  class="content_li">3</text>达到拼团人数，顺利开团</text>
+              <text class="content_t"><text  class="content_li">4</text>若2小时内拼团不成功，全额退款</text>
+          </view>
+    </view>
+    <view class="join">
+      <view class="join_title">
+        已有用户开团，可直接参与
+      </view>
+      <view class="join_content">
+        <navigator class="item" wx:for="{{goodsDeatil.strangeGroup}}" wx:key="key" url="/pages/goods_info">
+          <view  class="item_content">
+            <image class="item_img" src="{{item.member[0].headImage}}" />
+            <view class="item_top">
+              <view class="name">{{item.member[0].name}}
+                <text class="text_label" wx:if="{{item.groupAmount==1}}">一人团</text>
+                <text class="text_label" wx:if="{{item.groupAmount==3}}">三人团</text>
+                <text class="text_label" wx:if="{{item.groupAmount==5}}">五人团</text>
+              </view>
+              <view class="time">
+                 <text>还差<text  class="time_r">{{item.groupCount}}人</text>参团</text>
+                 <text  class="time_s">剩余{{item.timeLeft}}</text>
+              </view>
+            </view>
+            <view class="item_tip">
+              {{item.price}}元拼团
+            </view>
+          </view>
+        </navigator>
+      </view>
+    </view>
+    <view class="detail">
+      <image class="imageUrl" mode="aspectFit" src="{{goodsDeatil.detailVo.detailImage}}"/>
+      <view class="detail_rule">
+        拼团活动规则
+        <text class="detail_t">
+          {{goodsDeatil.groupRule.explainText}}
+        </text>
+      </view>
+    </view>
+    <view class="info_bottom">
+      <view class="item_left">
+        ￥9
+        <view  class="left_tips">另需5元配送费</view>
+      </view>
+      <view class="item_right">
+        发起拼团
+      </view>
+    </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import api from '@/api/api';
+import {
+  USER_INFO,USER_SPECICAL_INFO
+} from '@/utils/constant';
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: '商品详情',
+  }
+  components = {
+
+  }
+
+  data = {
+    goodsDeatil: {
+        "groupRule": {
+            "title": "所有折",
+            "textImageUrl": [
+                "https://images.lyancafe.com/provider/1529045466914.jpg\r\n"
+            ],
+            "shareDataDto": {
+                "appId": null,
+                "imgUrl": "https://qaimages.lyancafe.com/giftPacks/1509628466128.png",
+                "link": "/vip/index",
+                "desc": "可与其他优惠叠加",
+                "title": "连咖啡尊享会员限时开放，折上再享8.8折",
+                "timeLineTitle": "连咖啡尊享会员限时开放，折上再享8.8折",
+                "orderId": 0,
+                "giftCafeTraceId": 0,
+                "orderType": 0,
+                "freeOrder": false
+            },
+            "ruleText": "拼团活动规则",
+            "explainText": "1、拼团活动共分两种：老带新团+全民参与，购买万能咖啡请点击全民参与进入。*注：老带新团，入库后单杯配送需另付5元，两杯及以上可免配送费。\r\n*2、老带新团，老用户仅可开团，新用户可直接参团或开团。（注：新用户指未购买过任何Coffee Box产品的用户）新用户仅可享受一次直接参与新人福利团的机会。若该次拼团失败，可重新参与其他拼团。拼团成功后可发起其他拼团。\r\n\r\n*3、全民参与团，新老用户皆可参团或开团。\r\n*4、拼团成功，饮品将直接存入咖啡库。请至“个人中心-我的咖啡库”下单饮用或按流程提示操作。\r\n*5、拼团失败，金额将原路返还。如有其他疑问可直接联系连咖啡线上客服。\r\n*6、关于拼团活动截止时间，限时限量拼团售完即止。\r\n*7、具体配送服务范围：*上海：黄浦区，静安区，虹口区，徐汇区，长宁区，五角场，漕河泾开发区，陆家嘴，塘桥，浦东大道，上海科技馆，金桥，张江；*北京：中关村，西单，金融街，宣武门，望京，三元桥，亮马桥，三里屯，朝阳门，团结湖，呼家楼，四惠，八里庄，双井，劲松，西二旗，上地， 酒仙桥（将台）、东直门、国贸、惠新西街、北太平庄、新街口、和平里、花园桥、紫竹桥、崇文门、大望路、安贞；*广州：中心城区，海珠区，荔湾区，越秀区，天河区，白云区部分区域；*深圳：南山区：科技园、深圳大学、软件产业基地、滨海之窗、海岸城、桃园、前海、蛇口网谷、海上世界、招商局、蛇口医院、南山医院 ；福田区： 车公庙、竹子林、泰然工业区 、会展中心、市民广场、岗厦、皇岗、福田区政府、福田CBD、香蜜湖 、华强北、华强南、科学馆 ；保税区：全境服务 ；罗湖区:老街、国贸 、东门美食街、京基100 、金光华。"
+        },
+        "isFocus": true,
+        "strangeGroup": [
+            {
+                "id": 0,
+                "groupCount": 1,
+                "groupActivityId": 55,
+                "status": 200,
+                "timeLeft": 4111,
+                "groupAmount": 3,
+                "price": "25",
+                "member": [
+                    {
+                        "customerId": 618,
+                        "name": "Vito Nancy",
+                        "headImage": "https://images.lyancafe.com/robot/180710/618.png",
+                        "sortTime": null
+                    },
+                    {
+                        "customerId": 863,
+                        "name": "Claude Shelley",
+                        "headImage": "https://images.lyancafe.com/robot/180710/863.png",
+                        "sortTime": null
+                    }
+                ],
+                "robot": true
+            },
+            {
+                "id": 0,
+                "groupCount": 1,
+                "groupActivityId": 55,
+                "status": 200,
+                "timeLeft": 6990,
+                "groupAmount": 3,
+                "price": "25",
+                "member": [
+                    {
+                        "customerId": 949,
+                        "name": "Regina Malory",
+                        "headImage": "https://images.lyancafe.com/robot/180710/949.png",
+                        "sortTime": null
+                    },
+                    {
+                        "customerId": 9,
+                        "name": "须诗霜",
+                        "headImage": "https://images.lyancafe.com/robot/180710/9.png",
+                        "sortTime": null
+                    }
+                ],
+                "robot": true
+            }
+        ],
+        "totalMember": 0,
+        "isNewUser": true,
+        "detailVo": {
+            "groupId": 173,
+            "name": "新品优惠 | 蔓莓无花果雪昔 1杯装",
+            "description": "存入咖啡库，有效期100天",
+            "oldPrice": "35",
+            "effectiveTime": 2,
+            "activityTime": 667280478,
+            "imageUrl": "https://images.lyancafe.com/groupActivity/1531704507599.jpg",
+            "topImage": "https://images.lyancafe.com/groupActivity/1531704507633.jpg",
+            "detailImage": "https://images.lyancafe.com/groupActivity/1531704507654.jpg",
+            "iconImage": "https://images.lyancafe.com/groupActivity/1531704507684.jpg",
+            "label": "￥25",
+            "type": 0,
+            "inventoryLeft": null,
+            "needDeliveryFee": 0,
+            "groupType": [
+                {
+                    "id": 55,
+                    "groupAccount": 3,
+                    "price": "25"
+                }
+            ]
+        }
+    },
+    avatarUrl: "",
+    nickName: "",
+    bShowBind:true
+  }
+
+  onLoad() {
+    let that = this;
+  }
+  onShow(){
+    let that = this;
+  }
+  computed = {
+
+  }
+  methods = {
+
+  }
+  events = {
+
+  }
+}
+
+</script>
+<style lang="less">
+.info{
+  background-color: #fff;
+  .header {
+    width: 100%;
+    background-color: #fff;
+    .header_content {
+      width: 100%;
+      margin: 0 auto;
+      text-align: center;
+      .imageUrl{
+        width: 100%;
+        height: 360rpx;
+      }
+      .content{
+        padding: 20rpx 30rpx;
+        .title{
+                font-size: 34rpx;
+                font-weight: 600;
+                color: #000;
+                text-align: left;
+        }
+        .text_label{
+          color: #fff;
+          width: 70rpx;
+          height:50rpx;
+          line-height: 50rpx;
+          font-size: 22rpx;
+          padding:5rpx 15rpx;
+          background-color: #cc4444
+        }
+        .tip_title{
+          width:90%;
+          font-size: 30rpx;
+          font-weight: 500;
+          padding:10rpx 0;
+          color: #cc4444;
+          text-align: left;
+        }
+        .sub_title{
+                font-size: 30rpx;
+                color: #ccc;
+                text-align: left;
+        }
+        .price{
+          height: 100rpx;
+          .text_price{
+            font-size: 40rpx;
+            font-weight: 600;
+            color:rgb(190,68,81);
+            text-align:left;
+          }
+          .text_oldPrice{
+            color: #666666;
+            font-size: 28rpx;
+            line-height: 80rpx;
+            font-weight:400;
+            padding: 0 10rpx;
+            text-decoration: line-through;
+          }
+          .text_label2{
+            width: 50rpx;
+            height:50rpx;
+            color:#cc4444;
+            line-height: 50rpx;
+            font-size: 22rpx;
+          }
+        }
+        
+      }
+      
+    }
+  }
+  .rule{
+    height: 160rpx;
+    background-color: rgb(243,248,251);
+    padding: 30rpx;
+    .rule_title{
+      color: rgb(57, 84, 123);
+      font-weight: 600;
+      font-size: 30rpx;
+      padding-bottom: 20rpx;
+    }
+    .rule_content{
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: flex-start;
+      font-size: 22rpx;
+      color: rgb(111, 137, 146);
+      .content_t{
+        min-width: 300rpx;
+        padding: 10rpx 0;
+        .content_li{
+          display: inline;
+          background-color: rgb(57, 84, 123);
+          color: #fff;
+          border-radius:50rpx;
+          padding:0rpx 10rpx;
+          margin-right:10rpx;
+        }
+      }
+    }
+  }
+
+  .join{
+    padding: 20rpx 30rpx;
+    .join_title{
+      font-size: 36rpx;
+      font-weight: 600;
+      color: rgb(177, 177, 177);
+      padding: 15rpx 0;
+      border-bottom: 1rpx solid #c1c1c1;
+    }
+    .join_content{
+       .item{
+          border-bottom: 1rpx solid #c1c1c1;
+          .item_content{
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+            padding: 30rpx 0;
+            .item_img{
+                width: 80rpx;
+                height: 80rpx;
+                border-radius: 50rpx;
+                border: 1rpx solid #eeeeee;
+                margin-right: 20rpx;
+              }
+            .item_top{
+              display: flex;
+              flex-flow: column nowrap;
+              justify-content: space-between;
+              .name{
+                width: 400rpx;
+                height: 40rpx;
+                .text_label{
+                    border: 1rpx solid #000;
+                    color: #000;
+                    margin-left: 10rpx;
+                    font-size: 20rpx;
+                    padding: 0 10rpx;
+                }
+              }
+              .time{
+                width: 400rpx;
+                height: 40rpx;
+                font-size: 24rpx;
+                .time_r{
+                  color: #cc4444;
+                }
+                .time_s{
+                  margin-left: 20rpx;
+                }
+              }
+            }
+            .item_tip{
+              width: 160rpx;
+              height: 80rpx;
+              line-height: 80rpx;
+              background-color: rgb(246,159,0);
+              text-align: center;
+              color: #fff;
+              font-size: 30rpx;
+              border-radius: 10rpx;
+            }
+          }
+       }
+    }
+  }
+  .detail{
+    padding: 15rpx 30rpx 150rpx;
+    .imageUrl{
+      width:100%;
+      height:1200rpx;
+    }
+    .detail_rule{
+      font-size: 28rpx;
+      color: #ccc;
+      .detail_t{
+        font-size: 24rpx;
+        padding: 20rpx 0;
+      }
+    }
+  }
+  .info_bottom{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index:100;
+    background-color: #fff;
+    display: flex;
+    width: 100%;
+    border-top: 1rpx solid #c1c1c1;
+    height: 90rpx;
+    padding: 15rpx 30rpx;
+    .item_left{
+      width: 33%;
+      font-size: 50rpx;
+      font-weight: 600;
+      color:rgb(190,68,81);
+      text-align:left;
+      line-height:40rpx;
+      .left_tips{
+        font-size: 26rpx;
+        font-weight: 400;
+        color:rgb(190,68,81);
+      }
+    }
+    .item_right{
+      width: 60%;
+      height: 80rpx;
+      line-height: 80rpx;
+      background-color: rgb(246,159,0);
+      text-align: center;
+      color: #fff;
+      font-size: 36rpx;
+      font-weight: 600;
+      border-radius: 10rpx;
+    }
+  }
+}
+
+
+
+</style>
