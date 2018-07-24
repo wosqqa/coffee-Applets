@@ -2,16 +2,14 @@
   <view class="info">
     <view class="header">
       <view class="header_content">
-        <image class="avatarUrl" src="{{avatarUrl}}"></image>
-        <view class="nickName cfff">{{nickName}}</view>
+        <view class="nickName cfff">我的心愿</view>
+        <view class="nickName cfff">赠与记录</view>
       </view>
     </view>
     <view class="info_block">
-      <navigator class="item" url="/pages/register" wx:if="{{bShowBind}}">
-        <view>
-          <view class="item_content">
-            <view class="text" style="color:#fe2a2a">绑定手机号</view>
-          </view>
+      <navigator class="item" url="/pages/setting">
+        <view class="item_content">
+          <view class="text">设置</view>
         </view>
         <view class="arrow">&gt;</view>
       </navigator>
@@ -19,23 +17,7 @@
     <view class="info_block">
       <navigator class="item" url="/pages/setting">
         <view class="item_content">
-          <view class="text">心愿咖啡记录</view>
-        </view>
-        <view class="arrow">&gt;</view>
-      </navigator>
-    </view>
-    <view class="info_block">
-      <navigator class="item" url="/pages/setting">
-        <view class="item_content">
-          <view class="text">拼团订单</view>
-        </view>
-        <view class="arrow">&gt;</view>
-      </navigator>
-    </view>
-    <view class="info_block">
-      <navigator class="item" url="/pages/setting">
-        <view class="item_content">
-          <view class="text">系统设置</view>
+          <view class="text">设置</view>
         </view>
         <view class="arrow">&gt;</view>
       </navigator>
@@ -50,7 +32,7 @@ import {
 } from '@/utils/constant';
 export default class Index extends wepy.page {
   config = {
-    navigationBarTitleText: '我的',
+    navigationBarTitleText: '心愿记录',
   }
   components = {
 

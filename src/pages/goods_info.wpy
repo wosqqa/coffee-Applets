@@ -85,9 +85,6 @@
 <script>
 import wepy from 'wepy';
 import api from '@/api/api';
-import {
-  USER_INFO,USER_SPECICAL_INFO
-} from '@/utils/constant';
 export default class Index extends wepy.page {
   config = {
     navigationBarTitleText: '商品详情',
@@ -230,10 +227,10 @@ export default class Index extends wepy.page {
       text-align: center;
       .imageUrl{
         width: 100%;
-        height: 360rpx;
+        height: 376rpx;
       }
       .content{
-        padding: 20rpx 30rpx;
+        padding: 30rpx 40rpx;
         .title{
                 font-size: 34rpx;
                 font-weight: 600;
@@ -256,6 +253,7 @@ export default class Index extends wepy.page {
           padding:10rpx 0;
           color: #cc4444;
           text-align: left;
+          line-height:50rpx;
         }
         .sub_title{
                 font-size: 30rpx;
@@ -293,10 +291,10 @@ export default class Index extends wepy.page {
   }
   .rule{
     height: 160rpx;
-    background-color: rgb(243,248,251);
+    background-color: #f2fafa;
     padding: 30rpx;
     .rule_title{
-      color: rgb(57, 84, 123);
+      color: #4f6782;
       font-weight: 600;
       font-size: 30rpx;
       padding-bottom: 20rpx;
@@ -306,13 +304,13 @@ export default class Index extends wepy.page {
       flex-flow: row wrap;
       justify-content: flex-start;
       font-size: 22rpx;
-      color: rgb(111, 137, 146);
+      color: #92a7b1;
       .content_t{
         min-width: 300rpx;
         padding: 10rpx 0;
         .content_li{
           display: inline;
-          background-color: rgb(57, 84, 123);
+          background-color: #456182;
           color: #fff;
           border-radius:50rpx;
           padding:0rpx 10rpx;

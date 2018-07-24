@@ -34,7 +34,7 @@ export default class extends wepy.app {
       "backgroundColor": "#ffffff",
       "borderStyle": "black",
       "list": [{
-        "pagePath": "pages/coffee",
+        "pagePath": "pages/goods_info",
         "text": "首页",
         "iconPath": "images/icon_home.png",
         "selectedIconPath": "images/icon_home_active.png"
