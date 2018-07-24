@@ -17,7 +17,7 @@
       </navigator>
     </view>
     <view class="info_block">
-      <navigator class="item" url="/pages/setting">
+      <navigator class="item" url="/pages/mytuan_info">
         <view class="item_content">
           <view class="text">心愿咖啡记录</view>
         </view>
@@ -25,7 +25,7 @@
       </navigator>
     </view>
     <view class="info_block">
-      <navigator class="item" url="/pages/setting">
+      <navigator class="item" url="/pages/mytuan_order">
         <view class="item_content">
           <view class="text">拼团订单</view>
         </view>

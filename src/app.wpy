@@ -10,8 +10,10 @@ import 'wepy-async-function'
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/goods_info',
       'pages/fight',
+      'pages/mytuan_order',
+      'pages/mytuan_info',
+      'pages/goods_info',
       'pages/coffee',
       'pages/home',
       'pages/info',
@@ -25,7 +27,7 @@ export default class extends wepy.app {
       navigationBarTitleText: 'WeChat',
       navigationBarTextStyle: 'black',
       enablePullDownRefresh: false,
-      backgroundColor: '#EFEFEF'
+      backgroundColor: '#FFFFFF'
 
     },
     "tabBar": {

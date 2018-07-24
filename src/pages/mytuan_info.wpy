@@ -2,24 +2,78 @@
   <view class="info">
     <view class="header">
       <view class="header_content">
-        <view class="nickName cfff">我的心愿</view>
-        <view class="nickName cfff">赠与记录</view>
+        <view class="nickName {{topActive==1 ? 'active':''}}" data-id='1' @tap="selectTab">我的心愿</view>
+        <view class="nickName  {{topActive==2 ? 'active':''}}"  data-id='2'  @tap="selectTab">赠与记录</view>
       </view>
     </view>
-    <view class="info_block">
+    <view class="info_block" wx:if="{{topActive==1}}">
       <navigator class="item" url="/pages/setting">
         <view class="item_content">
-          <view class="text">设置</view>
+          <view class="title">新品优惠 | 蔓莓无花果雪昔 1杯装</view>
+          <view class="price">￥35</view>
+          <view class="time">购买时间 2018/7/25 12:20</view>
         </view>
-        <view class="arrow">&gt;</view>
+        <view class="arrow">待支付&gt;</view>
       </navigator>
     </view>
-    <view class="info_block">
+    <view class="info_block" wx:if="{{topActive==1}}">
       <navigator class="item" url="/pages/setting">
         <view class="item_content">
-          <view class="text">设置</view>
+          <view class="title">新品优惠 | 蔓莓无花果雪昔 1杯装</view>
+          <view class="price">￥35</view>
+          <view class="time">购买时间 2018/7/25 12:20</view>
         </view>
-        <view class="arrow">&gt;</view>
+        <view class="arrow">待支付&gt;</view>
+      </navigator>
+    </view>
+    <view class="info_block" wx:if="{{topActive==1}}">
+      <navigator class="item" url="/pages/setting">
+        <view class="item_content">
+          <view class="title">新品优惠 | 蔓莓无花果雪昔 1杯装</view>
+          <view class="price">￥35</view>
+          <view class="time">购买时间 2018/7/25 12:20</view>
+        </view>
+        <view class="arrow">待支付&gt;</view>
+      </navigator>
+    </view>
+    <view class="info_block" wx:if="{{topActive==1}}">
+      <navigator class="item" url="/pages/setting">
+        <view class="item_content">
+          <view class="title">新品优惠 | 蔓莓无花果雪昔 1杯装</view>
+          <view class="price">￥35</view>
+          <view class="time">购买时间 2018/7/25 12:20</view>
+        </view>
+        <view class="arrow">待支付&gt;</view>
+      </navigator>
+    </view>
+    <view class="info_block" wx:if="{{topActive==1}}">
+      <navigator class="item" url="/pages/setting">
+        <view class="item_content">
+          <view class="title">新品优惠 | 蔓莓无花果雪昔 1杯装</view>
+          <view class="price">￥35</view>
+          <view class="time">购买时间 2018/7/25 12:20</view>
+        </view>
+        <view class="arrow">待支付&gt;</view>
+      </navigator>
+    </view>
+    <view class="info_block" wx:if="{{topActive==1}}">
+      <navigator class="item" url="/pages/setting">
+        <view class="item_content">
+          <view class="title">新品优惠 | 蔓莓无花果雪昔 1杯装</view>
+          <view class="price">￥35</view>
+          <view class="time">购买时间 2018/7/25 12:20</view>
+        </view>
+        <view class="arrow">待支付&gt;</view>
+      </navigator>
+    </view>
+    <view class="info_block"  wx:if="{{topActive==2}}">
+      <navigator class="item" url="/pages/setting">
+        <view class="item_content">
+          <view class="title">新品优惠 | 须诗霜雪昔 1杯装</view>
+          <view class="price">￥25</view>
+          <view class="time">购买时间 2018/7/26 12:20</view>
+        </view>
+        <view class="arrow">待支付&gt;</view>
       </navigator>
     </view>
   </view>
@@ -39,6 +93,7 @@ export default class Index extends wepy.page {
   }
 
   data = {
+    topActive:'1',
     avatarUrl: "",
     nickName: "",
     bShowBind:true
@@ -68,19 +123,18 @@ export default class Index extends wepy.page {
 
   onLoad() {
     let that = this;
-    let userInfo = wepy.getStorageSync(USER_INFO);
-    that.avatarUrl = userInfo.avatarUrl;
-    that.nickName = userInfo.nickName;
   }
   onShow(){
     let that = this;
-    this.getUserInfo();
   }
   computed = {
 
   }
   methods = {
-
+    selectTab(e) {//tab点击
+    console.log(e.currentTarget.dataset.id)
+      this.topActive = e.currentTarget.dataset.id
+    },
   }
   events = {
 
@@ -90,17 +144,39 @@ export default class Index extends wepy.page {
 </script>
 <style lang="less">
 .header {
-  background: #ff6a3c;
-  height: 260rpx;
+  height: 110rpx;
   width: 100%;
+  .header_content {
+    width: 100%;
+    height: 110rpx;
+    margin: 0 auto;
+    text-align: center;
+    padding: 18rpx 0;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    .active{
+      color: #ff9500;
+      margin-bottom: 30rpx;
+    }
+    .active::before{
+      content: '';
+      position: absolute;
+      text-align: center;
+      margin-left: 38rpx;
+      top: 100rpx;
+      width: 50rpx;
+      height: 4rpx;
+      background-color: #ff9500;
+    }
+    .nickName {
+      font-size: 30rpx;
+      line-height:70rpx;
+    }
+  }
 }
 
-.header_content {
-  width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  padding-top: 48rpx;
-}
+
 
 .avatarUrl {
   width: 122rpx;
@@ -108,17 +184,13 @@ export default class Index extends wepy.page {
   border-radius: 1000px;
 }
 
-.nickName {
-  font-size: 30rpx;
-  padding-top: 15rpx;
-}
+
 
 .info_block {
-  margin-top: 10rpx;
+  height: 200rpx;
   .item {
-    border-top: 1rpx solid #dbdbdb;
     background: #fff;
-    padding: 34rpx 28rpx;
+    padding: 30rpx 40rpx;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -128,15 +200,21 @@ export default class Index extends wepy.page {
   }
   .item_content {
     display: flex;
-    align-items: center;
-    .text {
-      margin-left: 20rpx;
-      color: #1a1a1a;
+    flex-flow: column nowrap;
+    align-items: left;
+    .title{
+      font-weight: 600;
+      font-size: 36rpx;
+      color: #000;
     }
-  }
-  .item_img {
-    width: 42rpx;
-    height: 42rpx;
+    .price{
+      font-weight: 600;
+      font-size: 36rpx;
+      color: #000;
+    }
+    .time{
+      color: #cccccc;
+    }
   }
   .arrow {
     color: #cccccc;
