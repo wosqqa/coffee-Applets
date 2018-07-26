@@ -7,16 +7,6 @@
         </swiper-item>
       </block>
     </swiper>
-    <view class="header">
-      <view class="header_content {{active==1? 'active':''}}" @tap="selectTab" data-id="1">
-        老带新团
-        <text class="header_subcontent">仅新用户可参团</text>
-      </view>
-      <!-- <view class="header_content  {{active==2 ? 'active':''}}" @tap="selectTab"  data-id="2">
-        全民参与
-        <text class="header_subcontent">新老用户可参团</text>
-      </view> -->
-    </view>
     <view class="info_block"  wx:if="{{active==1}}">
       <navigator class="item" wx:for="{{groupActivityVo}}" wx:key="key" url="/pages/goods_info">
         <view  class="item_content">
@@ -30,25 +20,7 @@
             <view class="text_label" wx:if="{{item.groupAccountLabel==1}}">一人团</view>
             <view class="text_label" wx:if="{{item.groupAccountLabel==3}}">三人团</view>
             <view class="text_label" wx:if="{{item.groupAccountLabel==5}}">五人团</view>
-            <view class="text_btn">去开团</view>
-          </view>
-        </view>
-      </navigator>
-    </view>
-    <view class="info_block" wx:if="{{active==2}}">
-      <navigator class="item" wx:for="{{oldListActivityVo}}" wx:key="key" url="/pages/goods_info">
-        <view  class="item_content">
-          <view class="item_top">
-            <image class="item_img" src="{{item.imageUrl}}" />
-            <view class="name">{{item.name}}</view>
-          </view>
-          <view class="item_tip">
-            <view class="text_price">￥{{item.price}}</view>
-            <view class="text_oldPrice">￥{{item.oldPrice}}</view>
-            <view class="text_label" wx:if="{{item.groupAccountLabel==1}}">一人团</view>
-            <view class="text_label" wx:if="{{item.groupAccountLabel==3}}">三人团</view>
-            <view class="text_label" wx:if="{{item.groupAccountLabel==5}}">五人团</view>
-            <view class="text_btn">去开团</view>
+            <view class="text_btn">去兑换</view>
           </view>
         </view>
       </navigator>
@@ -63,7 +35,7 @@ import {
 } from '@/utils/constant';
 export default class Index extends wepy.page {
   config = {
-    navigationBarTitleText: '咖啡拼团',
+    navigationBarTitleText: '咖啡库',
   }
   components = {
 
@@ -76,10 +48,6 @@ export default class Index extends wepy.page {
     duration: 1000,
     indicatorActiveColor: "#fff",
     adList: [
-        {
-            "advertUrl": "/pages/coffee",
-            "picUrl": "https://images.lyancafe.com/groupActivity/1531982979454.jpg",
-        },
         {
             "advertUrl": "/pages/home?code=020",
             "picUrl": "https://img.alicdn.com/imgextra/i1/2053469401/TB2pbpIEVmWBuNjSspdXXbugXXa-2053469401.jpg",

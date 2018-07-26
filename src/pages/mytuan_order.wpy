@@ -110,7 +110,6 @@ export default class Index extends wepy.page {
   .arrow {
     color: #cccccc;
     font-size: 32rpx;
-    margin-top:80rpx;
   }
   .tip {
     color: #999;

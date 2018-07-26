@@ -10,11 +10,13 @@ import 'wepy-async-function'
 export default class extends wepy.app {
   config = {
     pages: [
+      'pages/verb_info',
+      'pages/coffee',
       'pages/fight',
+      'pages/cart',
       'pages/mytuan_order',
       'pages/mytuan_info',
       'pages/goods_info',
-      'pages/coffee',
       'pages/home',
       'pages/info',
       'pages/search',
@@ -36,7 +38,7 @@ export default class extends wepy.app {
       "backgroundColor": "#ffffff",
       "borderStyle": "black",
       "list": [{
-        "pagePath": "pages/goods_info",
+        "pagePath": "pages/coffee",
         "text": "首页",
         "iconPath": "images/icon_home.png",
         "selectedIconPath": "images/icon_home_active.png"
@@ -47,7 +49,7 @@ export default class extends wepy.app {
         "iconPath": "images/icon_classify.png",
         "selectedIconPath": "images/icon_classify_active.png"
       }, {
-        "pagePath": "pages/register",
+        "pagePath": "pages/cart",
         "text": "咖啡库",
         "iconPath": "images/icon_shop_cart.png",
         "selectedIconPath": "images/icon_shop_cart_active.png"
