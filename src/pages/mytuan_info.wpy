@@ -6,74 +6,26 @@
         <view class="nickName  {{topActive==2 ? 'active':''}}"  data-id='2'  @tap="selectTab">赠与记录</view>
       </view>
     </view>
-    <view class="info_block" wx:if="{{topActive==1}}">
+    <view class="info_block" wx:if="{{topActive==1}}" wx:for="{{recordList.itemList}}" wx:key="key"  >
       <navigator class="item" url="/pages/setting">
         <view class="item_content">
-          <view class="title">新品优惠 | 蔓莓无花果雪昔 1杯装</view>
-          <view class="price">￥35</view>
-          <view class="time">购买时间 2018/7/25 12:20</view>
+          <view class="title">{{item.saleGoodsName}}</view>
+          <view class="price">￥{{item.needGrowCafe}}</view>
+          <view class="time">{{item.created}}</view>
         </view>
-        <view class="arrow">待支付&gt;</view>
+        <view class="arrow" wx:if="{{item.status==400}}">已过期</view>
+        <view class="arrow" wx:else>待支付</view>
       </navigator>
     </view>
-    <view class="info_block" wx:if="{{topActive==1}}">
+    <view class="info_block" wx:if="{{topActive==2}}" wx:for="{{assistList.itemList}}" wx:key="key"  >
       <navigator class="item" url="/pages/setting">
         <view class="item_content">
-          <view class="title">新品优惠 | 蔓莓无花果雪昔 1杯装</view>
-          <view class="price">￥35</view>
-          <view class="time">购买时间 2018/7/25 12:20</view>
+          <view class="title">{{item.saleGoodsName}}</view>
+          <view class="price">￥{{item.needGrowCafe}}</view>
+          <view class="time">{{item.created}}</view>
         </view>
-        <view class="arrow">待支付&gt;</view>
-      </navigator>
-    </view>
-    <view class="info_block" wx:if="{{topActive==1}}">
-      <navigator class="item" url="/pages/setting">
-        <view class="item_content">
-          <view class="title">新品优惠 | 蔓莓无花果雪昔 1杯装</view>
-          <view class="price">￥35</view>
-          <view class="time">购买时间 2018/7/25 12:20</view>
-        </view>
-        <view class="arrow">待支付&gt;</view>
-      </navigator>
-    </view>
-    <view class="info_block" wx:if="{{topActive==1}}">
-      <navigator class="item" url="/pages/setting">
-        <view class="item_content">
-          <view class="title">新品优惠 | 蔓莓无花果雪昔 1杯装</view>
-          <view class="price">￥35</view>
-          <view class="time">购买时间 2018/7/25 12:20</view>
-        </view>
-        <view class="arrow">待支付&gt;</view>
-      </navigator>
-    </view>
-    <view class="info_block" wx:if="{{topActive==1}}">
-      <navigator class="item" url="/pages/setting">
-        <view class="item_content">
-          <view class="title">新品优惠 | 蔓莓无花果雪昔 1杯装</view>
-          <view class="price">￥35</view>
-          <view class="time">购买时间 2018/7/25 12:20</view>
-        </view>
-        <view class="arrow">待支付&gt;</view>
-      </navigator>
-    </view>
-    <view class="info_block" wx:if="{{topActive==1}}">
-      <navigator class="item" url="/pages/setting">
-        <view class="item_content">
-          <view class="title">新品优惠 | 蔓莓无花果雪昔 1杯装</view>
-          <view class="price">￥35</view>
-          <view class="time">购买时间 2018/7/25 12:20</view>
-        </view>
-        <view class="arrow">待支付&gt;</view>
-      </navigator>
-    </view>
-    <view class="info_block"  wx:if="{{topActive==2}}">
-      <navigator class="item" url="/pages/setting">
-        <view class="item_content">
-          <view class="title">新品优惠 | 须诗霜雪昔 1杯装</view>
-          <view class="price">￥25</view>
-          <view class="time">购买时间 2018/7/26 12:20</view>
-        </view>
-        <view class="arrow">待支付&gt;</view>
+        <view class="arrow" wx:if="{{item.status==400}}">已过期</view>
+        <view class="arrow" wx:else>待支付</view>
       </navigator>
     </view>
   </view>
@@ -95,34 +47,38 @@ export default class Index extends wepy.page {
   data = {
     topActive:'1',
     avatarUrl: "",
+    recordList:'',
+    assistList:'',
     nickName: "",
     bShowBind:true
   }
-  async getUserInfo(phone,code) {
-    let that = this;
-    let userSpecialInfo = wepy.getStorageSync(USER_SPECICAL_INFO) || {};
-    let openId = userSpecialInfo.openid;
-    const json = await api.getUserInfo({
-      query: {
-        openId: openId
-      }
-    });
+  // async getUserInfo(phone,code) {
+  //   let that = this;
+  //   let userSpecialInfo = wepy.getStorageSync(USER_SPECICAL_INFO) || {};
+  //   let openId = userSpecialInfo.openid;
+  //   const json = await api.getUserInfo({
+  //     query: {
+  //       openId: openId
+  //     }
+  //   });
 
-    if (json.data.code == 0) {
-      if (json.data.user.mobile.length>0) {
-        this.bShowBind=false;
-      } else {
-        this.bShowBind = true;
-      }
-      that.$apply();
-    } else {
-      tip.error(json.data.msg)
-    }
-    that.showLoading = false;
-  }
+  //   if (json.data.code == 0) {
+  //     if (json.data.user.mobile.length>0) {
+  //       this.bShowBind=false;
+  //     } else {
+  //       this.bShowBind = true;
+  //     }
+  //     that.$apply();
+  //   } else {
+  //     tip.error(json.data.msg)
+  //   }
+  //   that.showLoading = false;
+  // }
 
-  onLoad() {
+  onLoad(options) {
     let that = this;
+    console.log(options)
+    that.getRecordList();
   }
   onShow(){
     let that = this;
@@ -130,10 +86,54 @@ export default class Index extends wepy.page {
   computed = {
 
   }
+  async getRecordList() {
+    let that = this;
+    const json = await api.recordList({
+      query: {
+        page:1,
+        page_size:10,
+        client_session_key:'996d389cefe14628a62b7c73b5e5b768'
+      }
+    });
+    if (json.data.code == 200) {
+      console.log(json.data);
+      that.recordList=json.data.data.recordList
+      // that.oldListActivityVo=json.data.data.oldListActivityVo
+      console.log(that.goodsDeatil);
+    } else {
+      tip.error(json.data.message)
+    }
+    that.$apply();
+  }
+  async getAssistList() {
+    let that = this;
+    const json = await api.assistList({
+      query: {
+        page:1,
+        page_size:10,
+        client_session_key:'996d389cefe14628a62b7c73b5e5b768'
+      }
+    });
+    if (json.data.code == 200) {
+      console.log(json.data);
+      that.assistList=json.data.data.assistantList
+      // that.oldListActivityVo=json.data.data.oldListActivityVo
+      console.log(that.goodsDeatil);
+    } else {
+      tip.error(json.data.message)
+    }
+    that.$apply();
+  }
   methods = {
     selectTab(e) {//tab点击
+    let that = this;
     console.log(e.currentTarget.dataset.id)
-      this.topActive = e.currentTarget.dataset.id
+      that.topActive = e.currentTarget.dataset.id
+      if(that.topActive ==1){
+        that.getRecordList();
+      }else{
+        that.getAssistList();
+      }
     },
   }
   events = {

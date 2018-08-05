@@ -18,19 +18,20 @@
       </view> -->
     </view>
     <view class="info_block"  wx:if="{{active==1}}">
-      <navigator class="item" wx:for="{{groupActivityVo}}" wx:key="key" url="/pages/goods_info">
+      <navigator class="item" wx:for="{{groupActivityVo}}" wx:key="key" url="/pages/goods_info?id={{item.id}}">
         <view  class="item_content">
           <view class="item_top">
             <image class="item_img" src="{{item.imageUrl}}" />
             <view class="name">{{item.name}}</view>
           </view>
           <view class="item_tip">
-            <view class="text_price">￥{{item.price}}</view>
+            <view class="text_price">￥{{item.priceLabel}}</view>
             <view class="text_oldPrice">￥{{item.oldPrice}}</view>
             <view class="text_label" wx:if="{{item.groupAccountLabel==1}}">一人团</view>
             <view class="text_label" wx:if="{{item.groupAccountLabel==3}}">三人团</view>
             <view class="text_label" wx:if="{{item.groupAccountLabel==5}}">五人团</view>
-            <view class="text_btn">去开团</view>
+            <view class="text_btn" wx:if="{{item.timeLeft>0 || item.timeLeft==null}}">去开团</view>
+            <view class="text_btnl" wx:else>结束啦</view>
           </view>
         </view>
       </navigator>
@@ -43,12 +44,13 @@
             <view class="name">{{item.name}}</view>
           </view>
           <view class="item_tip">
-            <view class="text_price">￥{{item.price}}</view>
+            <view class="text_price">￥{{item.priceLabel}}</view>
             <view class="text_oldPrice">￥{{item.oldPrice}}</view>
             <view class="text_label" wx:if="{{item.groupAccountLabel==1}}">一人团</view>
             <view class="text_label" wx:if="{{item.groupAccountLabel==3}}">三人团</view>
             <view class="text_label" wx:if="{{item.groupAccountLabel==5}}">五人团</view>
-            <view class="text_btn">去开团</view>
+            <view class="text_btn" wx:if="{{item.timeLeft>0 || item.timeLeft==null}}">去开团</view>
+            <view class="text_btnl" wx:else>结束啦</view>
           </view>
         </view>
       </navigator>
@@ -86,68 +88,8 @@ export default class Index extends wepy.page {
         }
     ],
     groupActivityVo: [
-            {
-                "id": 172,
-                "name": "限时专享 | 热太妃榛果拿铁 1杯装",
-                "type": 1,
-                "price": 0,
-                "oldPrice": "33",
-                "finalPrice": 0,
-                "groupAccountLabel": 3,
-                "priceLabel": "1",
-                "description": null,
-                "imageUrl": "https://images.lyancafe.com/groupActivity/1531703858228.jpg",
-                "sort": 3,
-                "timeLeft": 581121453,
-                "inventoryLeft": null
-            },
-            {
-                "id": 101,
-                "name": "限时专享 | 冰榛果拿铁 1杯装",
-                "type": 1,
-                "price": 0,
-                "oldPrice": "31",
-                "finalPrice": 0,
-                "groupAccountLabel": 3,
-                "priceLabel": "1",
-                "description": null,
-                "imageUrl": "https://images.lyancafe.com/groupActivity/1526969234769.jpg",
-                "sort": 5,
-                "timeLeft": -196478546,
-                "inventoryLeft": null
-            }
     ],
     oldListActivityVo: [
-            {
-                "id": 173,
-                "name": "新品优惠 | 蔓莓无花果雪昔 1杯装",
-                "type": 0,
-                "price": 0,
-                "oldPrice": "35",
-                "finalPrice": 0,
-                "groupAccountLabel": 3,
-                "priceLabel": "25",
-                "description": null,
-                "imageUrl": "https://images.lyancafe.com/groupActivity/1531704507599.jpg",
-                "sort": 2,
-                "timeLeft": 667521449,
-                "inventoryLeft": null
-            },
-            {
-                "id": 169,
-                "name": "每人3次 | 热太妃榛果拿铁 1杯装",
-                "type": 0,
-                "price": 0,
-                "oldPrice": "33",
-                "finalPrice": 0,
-                "groupAccountLabel": 5,
-                "priceLabel": "9",
-                "description": null,
-                "imageUrl": "https://images.lyancafe.com/groupActivity/1531385454530.jpg",
-                "sort": 3,
-                "timeLeft": 494721450,
-                "inventoryLeft": 92673
-            }
     ],
     nickName: "",
     bShowBind:true
@@ -159,12 +101,33 @@ export default class Index extends wepy.page {
     let userInfo = wepy.getStorageSync(USER_INFO);
     that.avatarUrl = userInfo.avatarUrl;
     that.nickName = userInfo.nickName;
+    that.getActivityList()
   }
   onShow(){
     let that = this;
   }
   computed = {
 
+  }
+  async getActivityList() {
+    let that = this;
+    const json = await api.activityList({
+      query: {
+        city_code: '021',
+        environment: 'production',
+        lng:'121.79829406738281',
+        lat:'30.901954650878906',
+        client_session_key:'996d389cefe14628a62b7c73b5e5b768'
+      }
+    });
+    if (json.data.code == 200) {
+      that.groupActivityVo=json.data.data.groupActivityVo
+      that.oldListActivityVo=json.data.data.oldListActivityVo
+      console.log(that.groupActivityVo);
+    } else {
+      tip.error(json.data.message)
+    }
+    that.$apply();
   }
   methods = {
     goToAdvert(e) {//轮播跳转
@@ -257,6 +220,15 @@ export default class Index extends wepy.page {
             line-height: 40rpx;
             border-radius: 5rpx;
             background-color: #f5a000
+          }
+          .text_btnl{
+            color: #fff;
+            position: absolute;
+            right: 70rpx;
+            padding: 15rpx 25rpx;
+            line-height: 40rpx;
+            border-radius: 5rpx;
+            background-color: #ccc
           }
           .text_label{
             color: #fff;
