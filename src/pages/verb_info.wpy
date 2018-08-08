@@ -343,11 +343,11 @@ export default class Index extends wepy.page {
         .content_tz{
           position: absolute;
           color: #fff;
-          left: 40rpx;
+          left: 30rpx;
           bottom: 0;
           font-size: 24rpx;
           background-color: #c95b4f;
-          padding: 8rpx 15rpx;
+          padding: 5rpx 15rpx;
           border-radius: 20rpx;
         }
       }
