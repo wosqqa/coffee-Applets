@@ -1,0 +1,123 @@
+<!--心愿咖啡-->
+<template>
+  <view class="wish-box">
+    <view class="box-a">
+      <view class="box-aa"><image class="item_img" src="http://mmbiz.qpic.cn/mmbiz_png/x23egWVgojNORoy6lgiarZdWPXHc2k6uOhhhVWvh63a9JXDBXgNv6zUyWNs4DNcuUyOHN2mjUicMiamwgwaAwC9uQ/0?wx_fmt=png" /></view>
+      <view class="box-ab">用成长咖啡帮我实现心愿~
+        <view class="box-aba">集满1.0杯可免费喝</view>
+      </view>
+    </view>
+    <view class="box-b">
+      <view class="box-ba">用压箱底照片换一杯咖啡,大佬们赏个脸呗~</view>
+      <view class="box-bb"><image class="box-bb-img" src="http://mmbiz.qpic.cn/mmbiz_png/x23egWVgojNORoy6lgiarZdWPXHc2k6uOhhhVWvh63a9JXDBXgNv6zUyWNs4DNcuUyOHN2mjUicMiamwgwaAwC9uQ/0?wx_fmt=png" /></view>
+    </view>
+    <view class="box-c">
+      <view class="box-ca"></view>
+      <view class="box-cb"></view>
+      <view class="box-cc"></view>
+    </view>
+    <view class="box-d">
+      <view class="box-da"></view>
+      <view class="box-db"></view>
+      <view class="box-dc"></view>
+    </view>
+    <view class="box-e"></view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import api from "../api/api";
+import tip from '@/utils/tip';
+export default class wish extends wepy.page {
+  config = {
+    navigationBarTitleText: '心愿咖啡',
+    navigationBarBackgroundColor:'#fda300',
+    navigationBarTextStyle:'#fff'
+  }
+  data = {
+    type: "" //哪个页面跳转过来的
+  }
+
+  onLoad(option) {
+    this.currentPage = 0;
+  }
+
+  onShow(){
+    let that = this;
+  }
+  computed = {
+
+  }
+  methods = {
+  }
+  onUnload() {
+  }
+  events = {
+  }
+
+}
+
+</script>
+<style lang="less">
+.wish-box{
+  background-image: url(https://wxapp.lyancoffee.com/wish/activity_bg.jpg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: top;
+  padding: 0 35rpx;
+  .box-a{
+    height: 150rpx;
+    padding: 40rpx 0;
+    display: flex;
+    justify-content: flex-start;
+    color: #fff;
+    .box-aa{
+      width: 160rpx;
+      color: #fff;
+      margin-left: 15rpx;
+      .item_img{
+        width: 120rpx;
+        height: 120rpx;
+        border-radius: 100rpx;
+      }
+    }
+    .box-ab{
+      width: 420rpx;
+      font-size: 34rpx;
+      color: #fff;
+      font-weight: 300;
+      .box-aba{
+        font-size: 46rpx;
+        color: #fff;
+        font-weight: 500;
+      }
+    }
+  }
+  .box-b{
+    height: 160rpx;
+    background-color: #fff4db;
+    border-radius: 20rpx;
+    padding: 20rpx 5rpx;
+    font-size: 26rpx;
+    display: flex;
+    justify-content: space-around;
+    .box-ba{
+      width: 380rpx;
+      height: 150rpx;
+      padding: 30rpx 0;
+      color: #ad803a;
+      box-sizing: border-box;
+    }
+    .box-bb{
+      .box-bb-img{
+        width: 200rpx;
+        height: 120rpx;
+      }
+    }
+  }
+  .box-c{
+    height: 620rpx;
+  }
+}
+
+</style>
