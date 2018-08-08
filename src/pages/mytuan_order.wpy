@@ -1,13 +1,13 @@
 <template>
   <view class="info">
     <view class="info_block">
-      <navigator class="item" url="/pages/setting">
+      <navigator class="item" wx:for="{{orderList}}" wx:key="key"  url="/pages/setting">
         <view class="item_content">
-          <view class="title">新品优惠 | 蔓莓无花果雪昔 1杯装</view>
-          <view class="price">￥35</view>
-          <view class="time">购买时间 2018/7/25 12:20</view>
+          <view class="title">{{item.title}}</view>
+          <view class="price">￥{{item.price}}</view>
+          <view class="time">下单 {{item.buyTime}}</view>
         </view>
-        <view class="arrow">待支付&gt;</view>
+        <view class="arrow">{{item.status}} <text class="arrow-txt">&gt;</text></view>
       </navigator>
     </view>
   </view>
@@ -29,6 +29,7 @@ export default class Index extends wepy.page {
   data = {
     avatarUrl: "",
     nickName: "",
+    orderList:'',
     bShowBind:true
   }
   async getUserInfo(phone,code) {
@@ -56,16 +57,34 @@ export default class Index extends wepy.page {
 
   onLoad() {
     let that = this;
-    let userInfo = wepy.getStorageSync(USER_INFO);
-    that.avatarUrl = userInfo.avatarUrl;
-    that.nickName = userInfo.nickName;
+    // let userInfo = wepy.getStorageSync(USER_INFO);
+    // that.avatarUrl = userInfo.avatarUrl;
+    // that.nickName = userInfo.nickName;
+    that.getOrderList()
   }
   onShow(){
     let that = this;
-    this.getUserInfo();
+    // this.getUserInfo();
   }
   computed = {
 
+  }
+  async getOrderList() {
+    let that = this;
+    const json = await api.orderList({
+      query: {
+        client_session_key:'996d389cefe14628a62b7c73b5e5b768'
+      }
+    });
+    if (json.data.code == 200) {
+      console.log(json.data);
+      that.orderList=json.data.data.recordList
+      // that.oldListActivityVo=json.data.data.oldListActivityVo
+      console.log(that.goodsDeatil);
+    } else {
+      tip.error(json.data.message)
+    }
+    that.$apply();
   }
   methods = {
 
@@ -109,7 +128,11 @@ export default class Index extends wepy.page {
   }
   .arrow {
     color: #cccccc;
-    font-size: 32rpx;
+    font-size: 36rpx;
+  }
+  .arrow-txt{
+    color: rgb(246,159,0);
+    font-size: 36rpx;
   }
   .tip {
     color: #999;

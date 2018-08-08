@@ -2,10 +2,11 @@
   <view class="info">
     <view class="header">
       <view class="header_content">
-        <!-- <text class="text_label" wx:if="{{goodsDeatil.detailVo.groupType[0].groupAccount==1}}">一人团</text>
+        <view   class="content_type"> 
+          <text class="text_label" wx:if="{{goodsDeatil.detailVo.groupType[0].groupAccount==1}}">一人团</text>
               <text class="text_label" wx:if="{{goodsDeatil.detailVo.groupType[0].groupAccount==3}}">三人团</text>
-              <text class="text_label" wx:if="{{goodsDeatil.detailVo.groupType[0].groupAccount==5}}">五人团</text> -->
-
+              <text class="text_label" wx:if="{{goodsDeatil.detailVo.groupType[0].groupAccount==5}}">五人团</text>
+        </view>
         <view  class="content_img">
           <image class="imageUrl" src="{{goodsDeatil.detailVo.imageUrl}}"/>
         </view>
@@ -41,35 +42,18 @@
                 <text class="content_tz" wx:if="{{index==0}}">团长</text>
               </view>
           </view>
-    </view>
-    <!-- <view class="join">
-      <view class="join_title">
-        已有用户开团，可直接参与
-      </view>
-      <view class="join_content">
-        <navigator class="item" wx:for="{{goodsDeatil.strangeGroup}}" wx:key="key" url="/pages/goods_info">
-          <view  class="item_content">
-            <image class="item_img" src="{{item.member[0].headImage}}" />
-            <view class="item_top">
-              <view class="name">{{item.member[0].name}}
-                <text class="text_label" wx:if="{{item.groupAmount==1}}">一人团</text>
-                <text class="text_label" wx:if="{{item.groupAmount==3}}">三人团</text>
-                <text class="text_label" wx:if="{{item.groupAmount==5}}">五人团</text>
-              </view>
-              <view class="time">
-                 <text>还差<text  class="time_r">{{item.groupCount}}人</text>参团</text>
-                 <text  class="time_s">剩余{{item.timeLeft}}</text>
-              </view>
-            </view>
-            <view class="item_tip">
-              {{item.price}}元拼团
-            </view>
+          <view class="rule_list">
+            拼团流程
           </view>
-        </navigator>
-      </view>
-    </view> -->
+          <view class="rule_contentg">
+              <view class="content_t"><view  class="content_li">1</view> 发起拼团或者参加好友的拼团。</view>
+              <view class="content_t"><view  class="content_li">2</view>在活动时间内邀请好友一起拼团。</view>
+              <view class="content_t"><view  class="content_li">3</view>若拼团成功，参团商品将分别存入每位团员的咖啡库中，可下单享用。</view>
+              <view class="content_t"><view  class="content_li">4</view>若活动结束，拼团未成功时，预付款将原路返回。</view>
+          </view>
+    </view>
     <view class="detail">
-      <image class="imageUrl" mode="aspectFit" src="{{goodsDeatil.detailVo.detailImage}}"/>
+      <image class="imageUrl" mode="widthFix" src="{{goodsDeatil.detailVo.detailImage}}"/>
       <view class="detail_rule">
         拼团活动规则
         <text class="detail_t">
@@ -78,9 +62,11 @@
       </view>
     </view>
     <view class="info_bottom">
-      <view class="item_right">
-        参与拼团
-      </view>
+      <navigator class="item" url="/pages/order_info">
+        <view class="item_right">
+          参与拼团
+        </view>
+      </navigator>
     </view>
   </view>
 </template>
@@ -96,111 +82,16 @@ export default class Index extends wepy.page {
   }
 
   data = {
-    goodsDeatil: {
-        "groupRule": {
-            "title": "所有折",
-            "textImageUrl": [
-                "https://images.lyancafe.com/provider/1529045466914.jpg\r\n"
-            ],
-            "shareDataDto": {
-                "appId": null,
-                "imgUrl": "https://qaimages.lyancafe.com/giftPacks/1509628466128.png",
-                "link": "/vip/index",
-                "desc": "可与其他优惠叠加",
-                "title": "连咖啡尊享会员限时开放，折上再享8.8折",
-                "timeLineTitle": "连咖啡尊享会员限时开放，折上再享8.8折",
-                "orderId": 0,
-                "giftCafeTraceId": 0,
-                "orderType": 0,
-                "freeOrder": false
-            },
-            "ruleText": "拼团活动规则",
-            "explainText": "1、拼团活动共分两种：老带新团+全民参与，购买万能咖啡请点击全民参与进入。*注：老带新团，入库后单杯配送需另付5元，两杯及以上可免配送费。\r\n*2、老带新团，老用户仅可开团，新用户可直接参团或开团。（注：新用户指未购买过任何Coffee Box产品的用户）新用户仅可享受一次直接参与新人福利团的机会。若该次拼团失败，可重新参与其他拼团。拼团成功后可发起其他拼团。\r\n\r\n*3、全民参与团，新老用户皆可参团或开团。\r\n*4、拼团成功，饮品将直接存入咖啡库。请至“个人中心-我的咖啡库”下单饮用或按流程提示操作。\r\n*5、拼团失败，金额将原路返还。如有其他疑问可直接联系连咖啡线上客服。\r\n*6、关于拼团活动截止时间，限时限量拼团售完即止。\r\n*7、具体配送服务范围：*上海：黄浦区，静安区，虹口区，徐汇区，长宁区，五角场，漕河泾开发区，陆家嘴，塘桥，浦东大道，上海科技馆，金桥，张江；*北京：中关村，西单，金融街，宣武门，望京，三元桥，亮马桥，三里屯，朝阳门，团结湖，呼家楼，四惠，八里庄，双井，劲松，西二旗，上地， 酒仙桥（将台）、东直门、国贸、惠新西街、北太平庄、新街口、和平里、花园桥、紫竹桥、崇文门、大望路、安贞；*广州：中心城区，海珠区，荔湾区，越秀区，天河区，白云区部分区域；*深圳：南山区：科技园、深圳大学、软件产业基地、滨海之窗、海岸城、桃园、前海、蛇口网谷、海上世界、招商局、蛇口医院、南山医院 ；福田区： 车公庙、竹子林、泰然工业区 、会展中心、市民广场、岗厦、皇岗、福田区政府、福田CBD、香蜜湖 、华强北、华强南、科学馆 ；保税区：全境服务 ；罗湖区:老街、国贸 、东门美食街、京基100 、金光华。"
-        },
-        "isFocus": true,
-        "strangeGroup": [
-            {
-                "id": 0,
-                "groupCount": 1,
-                "groupActivityId": 55,
-                "status": 200,
-                "timeLeft": 4111,
-                "groupAmount": 3,
-                "price": "25",
-                "member": [
-                    {
-                        "customerId": 618,
-                        "name": "Vito Nancy",
-                        "headImage": "https://images.lyancafe.com/robot/180710/618.png",
-                        "sortTime": null
-                    },
-                    {
-                        "customerId": 863,
-                        "name": "Claude Shelley",
-                        "headImage": "https://images.lyancafe.com/robot/180710/863.png",
-                        "sortTime": null
-                    }
-                ],
-                "robot": true
-            },
-            {
-                "id": 0,
-                "groupCount": 1,
-                "groupActivityId": 55,
-                "status": 200,
-                "timeLeft": 6990,
-                "groupAmount": 3,
-                "price": "25",
-                "member": [
-                    {
-                        "customerId": 949,
-                        "name": "Regina Malory",
-                        "headImage": "https://images.lyancafe.com/robot/180710/949.png",
-                        "sortTime": null
-                    },
-                    {
-                        "customerId": 9,
-                        "name": "须诗霜",
-                        "headImage": "https://images.lyancafe.com/robot/180710/9.png",
-                        "sortTime": null
-                    }
-                ],
-                "robot": true
-            }
-        ],
-        "totalMember": 0,
-        "isNewUser": true,
-        "detailVo": {
-            "groupId": 173,
-            "name": "新品优惠 | 蔓莓无花果雪昔 1杯装",
-            "description": "存入咖啡库，有效期100天",
-            "oldPrice": "35",
-            "effectiveTime": 2,
-            "activityTime": 667280478,
-            "imageUrl": "https://images.lyancafe.com/groupActivity/1531704507599.jpg",
-            "topImage": "https://images.lyancafe.com/groupActivity/1531704507633.jpg",
-            "detailImage": "https://images.lyancafe.com/groupActivity/1531704507654.jpg",
-            "iconImage": "https://images.lyancafe.com/groupActivity/1531704507684.jpg",
-            "label": "￥25",
-            "type": 0,
-            "inventoryLeft": null,
-            "needDeliveryFee": 0,
-            "groupType": [
-                {
-                    "id": 55,
-                    "groupAccount": 3,
-                    "price": "25"
-                }
-            ]
-        }
-    },
+    goodsDeatil: '',
     avatarUrl: "",
     nickName: "",
     bShowBind:true
   }
 
-  onLoad() {
+  onLoad(options) {
     let that = this;
+    console.log(options)
+    that.getActivityDetail(options.groupId);
   }
   onShow(){
     let that = this;
@@ -208,6 +99,47 @@ export default class Index extends wepy.page {
   computed = {
 
   }
+  async getActivityDetail(id) {
+    let that = this;
+    const json = await api.activityDetail({
+      query: {
+        city_code: '021',
+        menu_id: id,
+        client_session_key:'996d389cefe14628a62b7c73b5e5b768'
+      }
+    });
+    if (json.data.code == 200) {
+      console.log(json.data);
+      that.goodsDeatil=json.data.data
+      // that.oldListActivityVo=json.data.data.oldListActivityVo
+      console.log(that.goodsDeatil);
+    } else {
+      tip.error(json.data.message)
+    }
+    that.$apply();
+  }
+
+  // async getDetailVirtual(groupId) {
+  //   let that = this;
+  //   const json = await api.detailVirtual({
+  //     query: {
+  //       city_code: '021',
+  //       member_ids: groupId,
+  //       time_left:'6087',
+  //       activity_id:groupId,
+  //       client_session_key:'996d389cefe14628a62b7c73b5e5b768'
+  //     }
+  //   });
+  //   if (json.data.code == 200) {
+  //     console.log(json.data);
+  //     that.goodsDeatil=json.data.data
+  //     // that.oldListActivityVo=json.data.data.oldListActivityVo
+  //     console.log(that.goodsDeatil);
+  //   } else {
+  //     tip.error(json.data.message)
+  //   }
+  //   that.$apply();
+  // }
   methods = {
 
   }
@@ -224,6 +156,7 @@ export default class Index extends wepy.page {
     width: 100%;
     background-color: #edfbff;
     padding: 20rpx 15rpx;
+    box-sizing: border-box;
     .header_content {
       width: 720rpx;
       height: 296rpx;
@@ -233,6 +166,18 @@ export default class Index extends wepy.page {
       flex-flow: row nowrap;
       background-color: #fff;
       justify-content: space-around;
+      .content_type{
+        position: absolute;
+        left:-55px;
+        top:40rpx;
+        width:350rpx;
+        height:50rpx;
+        line-height:50rpx;
+        font-size:32rpx;
+        transform:rotate(315deg);
+        color: #fff;
+        background-color:#f6a200;
+      }
       .content_img{
           line-height: 296rpx;
           margin: 50rpx 24rpx;
@@ -307,7 +252,7 @@ export default class Index extends wepy.page {
     .rule_title{
       color: #000;
       font-weight: 600;
-      font-size: 40rpx;
+      font-size: 35rpx;
       padding: 20rpx 0;
       .rule_title_y{
         margin-right: 20rpx;
@@ -349,6 +294,30 @@ export default class Index extends wepy.page {
           background-color: #c95b4f;
           padding: 5rpx 15rpx;
           border-radius: 20rpx;
+        }
+      }
+    }
+    .rule_list{
+      color: #676767;
+      margin: 50rpx 0 30rpx;
+      font-size: 36rpx;
+    }
+    .rule_contentg{
+      display: flex;
+      flex-flow: row wrap;
+      justify-content: flex-start;
+      font-size: 28rpx;
+      color: #9a9a9a;
+      .content_t{
+        min-width: 600rpx;
+        padding: 10rpx 0;
+        .content_li{
+          display: inline;
+          background-color: #9a9a9a;
+          color: #fff;
+          border-radius:50rpx;
+          padding:0rpx 10rpx;
+          margin-right:10rpx;
         }
       }
     }
@@ -427,7 +396,7 @@ export default class Index extends wepy.page {
     }
     .detail_rule{
       font-size: 28rpx;
-      color: #ccc;
+      color: #000;
       .detail_t{
         font-size: 24rpx;
         padding: 20rpx 0;

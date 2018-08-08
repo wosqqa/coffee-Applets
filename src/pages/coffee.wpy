@@ -44,9 +44,10 @@
       <txt class="info-center-title">为你的心愿拉个票</txt>
        <textarea class="info-center-input"  bindblur="bindTextAreaBlur" auto-height placeholder="用压箱底照片换一杯咖啡，大佬们赏个脸呗~" />
     </view>
-    <view class="info-bottom" @tap="onShareAppMessage">
+    <!-- <view class="info-bottom" @tap="onShareAppMessage">
       邀请好友助力
-    </view>
+    </view> -->
+    <button class="info-bottom" open-type="share">邀请好友助力</button>
   </view>
 </template>
 <script>
@@ -137,13 +138,19 @@ export default class Filter extends wepy.page {
       },
       chooseImage(){//选取图片
         let _this=this
+        wepy.showToast({
+              title: '上传图片',
+              icon: 'success',
+              duration: 2000
+            })
+            
           wepy.chooseImage({
           count: 1, // 默认9
           sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
           sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
           success: function (res) {
             // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-            console.log(res.tempFilePaths)
+            console.log(res)
             _this.form.imageUrl = res.tempFilePaths
             _this.$apply();
           },
@@ -156,7 +163,7 @@ export default class Filter extends wepy.page {
             // complete
           }
         })
-        _this.from.imageUrl ='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1531211342982&di=b827d08f24885a0ba08405553bdd8665&imgtype=0&src=http%3A%2F%2Ffile.muyee.com%2Fimages%2Fupload%2FImage%2F20141209091754.jpg'
+        // _this.from.imageUrl ='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1531211342982&di=b827d08f24885a0ba08405553bdd8665&imgtype=0&src=http%3A%2F%2Ffile.muyee.com%2Fimages%2Fupload%2FImage%2F20141209091754.jpg'
         _this.$apply();
       }
   }
@@ -166,7 +173,14 @@ export default class Filter extends wepy.page {
    */
   onShareAppMessage (){
     const imageUrl = this.selectItem.imageUrl
+    
+    // wx.showToast({
+    //   title: imageUrl,
+    //   icon: 'success',
+    //   duration: 2000
+    // })
     const shareName = `${this.selectItem.goodsName} 底价低至1元，快邀请好友帮你助力吧~`
+    console.log(imageUrl,shareName)
     return {
       title: shareName,
       imageUrl: imageUrl,
@@ -190,6 +204,7 @@ page {
     background-size: contain;
     background-position: top;
     padding:0 25rpx;
+    padding-bottom: 100rpx;
     .info-top-txt{
       border-radius:25rpx;
       height:200rpx;
@@ -309,11 +324,9 @@ page {
     }
     .info-bottom{
       background:#f54;
-      margin:30rpx auto;
-      padding:20rpx 20rpx;
       border-radius:40rpx;
       text-align:center;
-      width:280rpx;
+      width:380rpx;
       color:#fff;
     }
   }
