@@ -46,7 +46,7 @@
           </view>
     </view>
     <view class="info_bottom">
-      <view class="item_right">
+      <view class="item_right"  @tap="payMoney"  data-id="12311342" data-tradeno="4543536657567534">
         微信支付
       </view>
     </view>
@@ -100,6 +100,45 @@ export default class Index extends wepy.page {
     that.$apply();
   }
   methods = {
+    async payMoney(e) {
+      this.orderNo = e.currentTarget.dataset.id;
+      let tradeNo = e.currentTarget.dataset.tradeno;
+      // let userSpecialInfo = wepy.getStorageSync(USER_SPECICAL_INFO) || {};
+      // let openId = userSpecialInfo.openid;
+      let openId = '323232233232';
+      const pay = await api.toPay({
+        query:{
+          openId: openId,
+          orderNo: tradeNo
+        }
+      });
+      if (pay.data.code==0) {
+        //以下是微信支付
+        wx.requestPayment({
+          appId: pay.data.appId,
+          timeStamp: pay.data.timeStamp,
+          nonceStr: pay.data.nonceStr,
+          package: pay.data.package,
+          signType: 'MD5',
+          paySign: pay.data.paySign,
+          success: function (res) {
+            console.log('pay', res)
+            setTimeout(() => {
+              //支付成功 关闭loadding 跳转到支付成功页面
+              tip.loaded();
+              wepy.navigateTo({
+                url: "/pages/pay_success?orderNo="+tradeNo
+              })
+            }, 2000)
+          },
+          fail: function (res) {
+            tip.alert('支付失败');
+          }
+        })
+      } else {
+        tip.alert('支付失败');
+      }
+    }
 
   }
   events = {

@@ -184,7 +184,7 @@ export default class Filter extends wepy.page {
     return {
       title: shareName,
       imageUrl: imageUrl,
-      path: `/pages/coffee`
+      path: `/pages/wish_coffee`
     }
   }
 

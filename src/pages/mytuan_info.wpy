@@ -7,7 +7,7 @@
       </view>
     </view>
     <view class="info_block" wx:if="{{topActive==1}}" wx:for="{{recordList.itemList}}" wx:key="key"  >
-      <navigator class="item" url="/pages/setting">
+      <navigator class="item" url="/pages/wish_coffee">
         <view class="item_content">
           <view class="title">{{item.saleGoodsName}}</view>
           <view class="price">￥{{item.needGrowCafe}}</view>
@@ -18,7 +18,7 @@
       </navigator>
     </view>
     <view class="info_block" wx:if="{{topActive==2}}" wx:for="{{assistList.itemList}}" wx:key="key"  >
-      <navigator class="item" url="/pages/setting">
+      <navigator class="item" url="/pages/wish_coffee">
         <view class="item_content">
           <view class="title">{{item.saleGoodsName}}</view>
           <view class="price">￥{{item.needGrowCafe}}</view>
