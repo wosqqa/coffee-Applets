@@ -86,7 +86,7 @@ export default class Index extends wepy.page {
       query: {
         city_code: '021',
         menu_id: id,
-        client_session_key:'996d389cefe14628a62b7c73b5e5b768'
+        client_session_key:'cfdddb4be1aa44ce8f7d76b46b180fa0'
       }
     });
     if (json.data.code == 200) {
@@ -101,6 +101,9 @@ export default class Index extends wepy.page {
   }
   methods = {
     async payMoney(e) {
+      wepy.navigateTo({
+                url: "/pages/pay_success?orderNo=878676"
+      })
       this.orderNo = e.currentTarget.dataset.id;
       let tradeNo = e.currentTarget.dataset.tradeno;
       // let userSpecialInfo = wepy.getStorageSync(USER_SPECICAL_INFO) || {};

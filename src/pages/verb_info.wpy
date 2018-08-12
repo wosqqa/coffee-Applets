@@ -105,7 +105,7 @@ export default class Index extends wepy.page {
       query: {
         city_code: '021',
         menu_id: id,
-        client_session_key:'996d389cefe14628a62b7c73b5e5b768'
+        client_session_key:'cfdddb4be1aa44ce8f7d76b46b180fa0'
       }
     });
     if (json.data.code == 200) {
@@ -127,7 +127,7 @@ export default class Index extends wepy.page {
   //       member_ids: groupId,
   //       time_left:'6087',
   //       activity_id:groupId,
-  //       client_session_key:'996d389cefe14628a62b7c73b5e5b768'
+  //       client_session_key:'cfdddb4be1aa44ce8f7d76b46b180fa0'
   //     }
   //   });
   //   if (json.data.code == 200) {
