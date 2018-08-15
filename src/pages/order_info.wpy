@@ -86,7 +86,7 @@ export default class Index extends wepy.page {
       query: {
         city_code: '021',
         menu_id: id,
-        client_session_key:'cfdddb4be1aa44ce8f7d76b46b180fa0'
+        client_session_key:'ada96d1fef14470ba57af4557439f740'
       }
     });
     if (json.data.code == 200) {

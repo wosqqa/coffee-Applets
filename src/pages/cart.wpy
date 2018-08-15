@@ -20,7 +20,7 @@
             <view class="text_label" wx:if="{{item.groupAccountLabel==1}}">一人团</view>
             <view class="text_label" wx:if="{{item.groupAccountLabel==3}}">三人团</view>
             <view class="text_label" wx:if="{{item.groupAccountLabel==5}}">五人团</view>
-            <view class="text_btn" wx:if="{{item.timeLeft>0 || item.timeLeft==null}}">去开团</view>
+            <view class="text_btn" wx:if="{{item.timeLeft>0 || item.timeLeft==null}}">去兑换</view>
             <view class="text_btnl" wx:else>结束啦</view>
           </view>
         </view>

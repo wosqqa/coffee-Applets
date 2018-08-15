@@ -37,7 +37,7 @@
       </navigator>
     </view>
     <view class="info_block" wx:if="{{active==2}}">
-      <navigator class="item" wx:for="{{oldListActivityVo}}" wx:key="key" url="/pages/goods_info">
+      <navigator class="item" wx:for="{{oldListActivityVo}}" wx:key="key" url="/pages/goods_info?id={{item.id}}">
         <view  class="item_content">
           <view class="item_top">
             <image class="item_img" src="{{item.imageUrl}}" />
@@ -117,7 +117,7 @@ export default class Index extends wepy.page {
         environment: 'production',
         lng:'121.79829406738281',
         lat:'30.901954650878906',
-        client_session_key:'cfdddb4be1aa44ce8f7d76b46b180fa0'
+        client_session_key:'ada96d1fef14470ba57af4557439f740'
       }
     });
     if (json.data.code == 200) {

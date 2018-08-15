@@ -1,7 +1,7 @@
 <template>
   <view class="info">
     <view class="header">
-      <view class="header_content" wx:if="{{nickName==''}}">
+      <view class="header_content" wx:if="{{nickName!=''}}">
         <image class="avatarUrl" src="{{avatarUrl}}" />
         <view class="nickName cfff">{{nickName}}</view>
       </view>
@@ -12,7 +12,7 @@
         </navigator>
       </view>
     </view>
-    <view class="info_block">
+    <!-- <view class="info_block">
       <navigator class="item" url="/pages/register" wx:if="{{bShowBind}}">
         <view>
           <view class="item_content">
@@ -21,7 +21,7 @@
         </view>
         <view class="arrow">&gt;</view>
       </navigator>
-    </view>
+    </view> -->
     <view class="info_block">
       <navigator class="item" url="/pages/mytuan_info">
         <view class="item_content">
@@ -100,7 +100,7 @@ export default class Index extends wepy.page {
   }
   onShow(){
     let that = this;
-    this.getUserInfo();
+    // this.getUserInfo();
   }
   computed = {
 

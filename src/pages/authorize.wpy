@@ -58,6 +58,7 @@ export default class Authorize extends wepy.page {
       if (e.detail.errMsg == 'getUserInfo:ok') {
         let res = await wepy.login();
         if (res.code) {
+          console.log(res)
           wepy.setStorageSync(USER_INFO, e.detail.userInfo);
           let systemInfo = wepy.getSystemInfoSync();
           wepy.setStorageSync(SYSTEM_INFO, systemInfo);

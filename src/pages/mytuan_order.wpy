@@ -1,7 +1,7 @@
 <template>
   <view class="info">
     <view class="info_block">
-      <navigator class="item" wx:for="{{orderList}}" wx:key="key"  url="/pages/setting">
+      <navigator class="item" wx:for="{{orderList}}" wx:key="key"  url="/pages/verb_info?purchase_order_id={{item.orderId}}&time_left={{item.timeLeft}}&activity_id={{item.groupActivityId}}">
         <view class="item_content">
           <view class="title">{{item.title}}</view>
           <view class="price">￥{{item.price}}</view>
@@ -73,7 +73,7 @@ export default class Index extends wepy.page {
     let that = this;
     const json = await api.orderList({
       query: {
-        client_session_key:'cfdddb4be1aa44ce8f7d76b46b180fa0'
+        client_session_key:'ada96d1fef14470ba57af4557439f740'
       }
     });
     if (json.data.code == 200) {
