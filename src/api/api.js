@@ -3,8 +3,9 @@ import {
 } from '@/utils/wxRequest';
 
 let env = "-test" //-dev 或者 -test
-const apiMall = 'https://wx.harryyan.xin:3000'
-
+const apiMall = 'https://wx.harryyan.xin'
+// const apiMall = 'https://m.lyancoffee.com'
+const wxJsCode2Session = (params) => wxRequest(params, apiMall + '/wxa-api/api/jscode2session');//获取openid
 
 const cafeRule = (params) => wxRequest(params, apiMall + '/wxa-api/api/wish/cafe/rule');//活动规则
 const activityList = (params) => wxRequest(params, apiMall + '/wxa-api/api/group/activity/list');//拼团列表
@@ -17,6 +18,8 @@ const assistList = (params) => wxRequest(params, apiMall + '/wxa-api/api/wish/ca
 const orderList = (params) => wxRequest(params, apiMall + '/wxa-api/api/group/v1/record/list');//拼团订单列表
 const mainGetgoods = (params) => wxRequest(params, apiMall + '/wxa-api/api/mainbuyapi/getgoods');//首页商品
 const detailVirtual = (params) => wxRequest(params, apiMall + '/wxa-api/api/group/record/detail/virtual');//参与拼团
+const toPay = (params) => wxRequest(params, apiMall + '/wxa-api/api/group/record/create');//拼团支付
+
 export default {
   cafeRule,
   activityList,
@@ -28,5 +31,7 @@ export default {
   assistList,
   orderList,
   mainGetgoods,
-  detailVirtual
+  detailVirtual,
+  toPay,
+  wxJsCode2Session
 }

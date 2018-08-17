@@ -55,7 +55,7 @@ import wepy from 'wepy';
 
 export default class Filter extends wepy.page {
   config = {
-    navigationBarTitleText: '云咖啡',
+    navigationBarTitleText: 'UME花园咖啡厅',
     backgroundTextStyle: 'dark',
     navigationBarBackgroundColor: '#de5b41',
     navigationBarTextStyle: '#fff',
@@ -184,7 +184,7 @@ export default class Filter extends wepy.page {
     return {
       title: shareName,
       imageUrl: imageUrl,
-      path: `/pages/coffee`
+      path: `/pages/wish_coffee`
     }
   }
 

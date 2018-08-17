@@ -1,12 +1,18 @@
 <template>
   <view class="info">
     <view class="header">
-      <view class="header_content">
-        <image class="avatarUrl" src="{{avatarUrl}}"></image>
+      <view class="header_content" wx:if="{{nickName!=''}}">
+        <image class="avatarUrl" src="{{avatarUrl}}" />
         <view class="nickName cfff">{{nickName}}</view>
       </view>
+      <view class="header_content" wx:else>
+        <navigator class="item" url="/pages/authorize">
+          <image class="avatarUrl" src="http://wx.qlogo.cn/mmhead/Q3auHgzwzM47ia6sIOuaDwd8I919rQq0nXfrmvABZWkry6LuU8Lz6Dw/132" />
+          <view class="nickName cfff">登录</view>
+        </navigator>
+      </view>
     </view>
-    <view class="info_block">
+    <!-- <view class="info_block">
       <navigator class="item" url="/pages/register" wx:if="{{bShowBind}}">
         <view>
           <view class="item_content">
@@ -15,7 +21,7 @@
         </view>
         <view class="arrow">&gt;</view>
       </navigator>
-    </view>
+    </view> -->
     <view class="info_block">
       <navigator class="item" url="/pages/mytuan_info">
         <view class="item_content">
@@ -64,6 +70,7 @@ export default class Index extends wepy.page {
   async getUserInfo(phone,code) {
     let that = this;
     let userSpecialInfo = wepy.getStorageSync(USER_SPECICAL_INFO) || {};
+    console.log(userSpecialInfo);
     let openId = userSpecialInfo.openid;
     const json = await api.getUserInfo({
       query: {
@@ -87,12 +94,13 @@ export default class Index extends wepy.page {
   onLoad() {
     let that = this;
     let userInfo = wepy.getStorageSync(USER_INFO);
+    console.log(userInfo);
     that.avatarUrl = userInfo.avatarUrl;
     that.nickName = userInfo.nickName;
   }
   onShow(){
     let that = this;
-    this.getUserInfo();
+    // this.getUserInfo();
   }
   computed = {
 

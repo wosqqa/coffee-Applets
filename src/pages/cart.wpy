@@ -8,19 +8,20 @@
       </block>
     </swiper>
     <view class="info_block"  wx:if="{{active==1}}">
-      <navigator class="item" wx:for="{{groupActivityVo}}" wx:key="key" url="/pages/goods_info">
+      <navigator class="item" wx:for="{{groupActivityVo}}" wx:key="key" url="/pages/goods_info?id={{item.id}}">
         <view  class="item_content">
           <view class="item_top">
             <image class="item_img" src="{{item.imageUrl}}" />
             <view class="name">{{item.name}}</view>
           </view>
           <view class="item_tip">
-            <view class="text_price">￥{{item.price}}</view>
+            <view class="text_price">￥{{item.priceLabel}}</view>
             <view class="text_oldPrice">￥{{item.oldPrice}}</view>
             <view class="text_label" wx:if="{{item.groupAccountLabel==1}}">一人团</view>
             <view class="text_label" wx:if="{{item.groupAccountLabel==3}}">三人团</view>
             <view class="text_label" wx:if="{{item.groupAccountLabel==5}}">五人团</view>
-            <view class="text_btn">去兑换</view>
+            <view class="text_btn" wx:if="{{item.timeLeft>0 || item.timeLeft==null}}">去兑换</view>
+            <view class="text_btnl" wx:else>结束啦</view>
           </view>
         </view>
       </navigator>

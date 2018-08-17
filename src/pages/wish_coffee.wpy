@@ -1,0 +1,253 @@
+<!--心愿咖啡-->
+<template>
+  <view class="wish-box">
+    <view class="box-a">
+      <view class="box-aa"><image class="item_img" src="{{wishData.begCafeInfo.headImage}}" /></view>
+      <view class="box-ab">用成长咖啡帮我实现心愿~
+        <view class="box-aba">集满1.0杯可免费喝</view>
+      </view>
+    </view>
+    <view class="box-b">
+      <view class="box-ba">{{wishData.begCafeInfo.message}}</view>
+      <view class="box-bb">
+        <view class="box-bb-txt">好友助力后可见</view>
+        <image class="box-bb-img" src="{{wishData.begCafeInfo.imageUrl}}" />
+      </view>
+    </view>
+    <view class="box-c">
+      <view class="box-ca"><image class="box-ca-img" src="{{wishData.begCafeGoodsDetail.imageUrl}}" /></view>
+      <view class="box-cb">{{wishData.begCafeGoodsDetail.name}}</view>
+       <view class="box-cd">
+         <text class="box-cda" >心愿未达成</text>
+         <text class="box-cdb" >成长咖啡已返还至好友账户</text>
+       </view>
+       <view class="box-ce">
+         <view class="box-cea"></view>
+         <view class="box-ceb">0.0/1.0杯</view>
+       </view>
+      <view class="box-cc">发起助力</view>
+    </view>
+    <view class="box-d">
+      <view class="box-da">暂无助力</view>
+      <view class="box-db"></view>
+      <view class="box-dc"></view>
+    </view>
+    <view class="box-e"></view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import api from "../api/api";
+import tip from '@/utils/tip';
+export default class wish extends wepy.page {
+  config = {
+    navigationBarTitleText: '心愿咖啡',
+    navigationBarBackgroundColor:'#fda300',
+    navigationBarTextStyle:'#fff'
+  }
+  data = {
+    wishData:{
+        "helper": [ ], 
+        "begCafeInfo": {
+            "recordId": 68077, 
+            "totalGrowCafe": "0.0", 
+            "status": 400, 
+            "timeLeft": -2593652659, 
+            "name": "伟", 
+            "headImage": "https://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83epFjmHVmPtXbDagokRLZwmAtrC7ZkDSWOziazD0l2sY6oDH9ohdpA3g74ICHdZ61duIOAN9u7CKoFQ/132", 
+            "message": "用压箱底照片换一杯咖啡，大佬们赏个脸呗～", 
+            "imageUrl": "https://images.lyancafe.com/wishcafe/201807/4902946f0dea8c9b3494e3e8d3f1312128923e2.jpg", 
+            "mosaicImage": null, 
+            "showStatus": 1
+        }, 
+        "begCafeGoodsDetail": {
+            "saleGoodsId": 10702, 
+            "growCafe": "1.0", 
+            "name": "天生的粉椰子水", 
+            "imageUrl": "https://images.lyancafe.com/salegoods/1521785265435.png"
+        }, 
+        "isNew": false, 
+        "userRole": 10, 
+        "begRule": {
+            "title": "求咖啡", 
+            "mysteryImage": "", 
+            "validity": 12, 
+            "price": 200, 
+            "growingCafeNum": 1000, 
+            "subscribedGrowingCafe": 1000, 
+            "textImageUrl": [ ], 
+            "ruleText": "心愿咖啡规则", 
+            "explainText": "1、邀请好友助力成长咖啡，你就能免费达成咖啡心愿，不同咖啡需要助力额度不同*2、成长咖啡是连咖啡推出的福利积分，通过福袋等渠道可以累积*3、一位好友最多助力0.5杯成长咖啡给你，TA可用自己的库存赠送，也可支付2元每0.1杯的金额为你助力*4、好友若是从未关注过连咖啡公众号，且未下单的用户，即可免费助力你0.1杯*5、助力成功后咖啡会自动存入咖啡库，有效期14天，请尽快享用*6、你需要上传一张照片作为回报，为你助力的好友可见*7、每次助力活动的时间是12小时，12小时未成功则助力失败，好友的成长咖啡及已付款会原路返回*8、你可以设置是否公开已助力好友的昵称和头像*9、当你自己为别人助力时，每天使用库存抵扣的次数为5次", 
+            "cafeExpireDay": 14, 
+            "cafeStorageTypeId": 80
+        }
+    },
+    type: "" //哪个页面跳转过来的
+  }
+
+  onLoad(option) {
+    this.currentPage = 0;
+  }
+
+  onShow(){
+    let that = this;
+  }
+  computed = {
+
+  }
+  methods = {
+  }
+  onUnload() {
+  }
+  events = {
+  }
+
+}
+
+</script>
+<style lang="less">
+.wish-box{
+  background-image: url(https://wxapp.lyancoffee.com/wish/activity_bg.jpg);
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: top;
+  padding: 0 35rpx;
+  padding-bottom:27px;
+  .box-a{
+    height: 150rpx;
+    padding: 40rpx 0;
+    display: flex;
+    justify-content: flex-start;
+    color: #fff;
+    .box-aa{
+      width: 160rpx;
+      color: #fff;
+      margin-left: 15rpx;
+      .item_img{
+        width: 120rpx;
+        height: 120rpx;
+        border-radius: 100rpx;
+      }
+    }
+    .box-ab{
+      width: 420rpx;
+      font-size: 34rpx;
+      color: #fff;
+      font-weight: 300;
+      .box-aba{
+        font-size: 46rpx;
+        color: #fff;
+        font-weight: 500;
+      }
+    }
+  }
+  .box-b{
+    height: 160rpx;
+    background-color: #fff4db;
+    border-radius: 20rpx;
+    padding: 20rpx 5rpx;
+    font-size: 26rpx;
+    display: flex;
+    justify-content: space-around;
+    .box-ba{
+      width: 380rpx;
+      height: 150rpx;
+      padding: 30rpx 0;
+      color: #ad803a;
+      box-sizing: border-box;
+    }
+    .box-bb{
+      transform:rotate(345deg);
+      border: 10rpx solid #fff;
+      .box-bb-txt{
+        position: absolute;
+        top: 100rpx;
+        left: 20rpx;
+        z-index: 2;
+        color: #fff;
+        font-weight: 500;
+      }
+      .box-bb-img{
+        width: 230rpx;
+        height: 160rpx;
+        filter:blur(5px);
+      }
+    }
+  }
+  .box-c{
+    background-image: url(../static/images/kfbg.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: top;
+    height: 620rpx;
+    margin-top: 25rpx;
+    border-radius: 20rpx;
+    background-color: #fff;
+    text-align: center;
+    .box-ca-img{
+      width: 200rpx;
+      height: 180rpx;
+      margin-top: 50rpx;
+    }
+    .box-cd{
+      margin: 40rpx;
+      display: flex;
+      justify-content: space-between;
+      .box-cda{
+        color:#ccc
+      }
+      .box-cdb{
+        color:#eea806
+      }
+    }
+    .box-ce{
+      margin: 40rpx;
+      display: flex;
+      justify-content: space-between;
+      .box-cea{
+        width: 350rpx;
+        height: 60rpx;
+        background-color: #fff;
+        border-radius: 40rpx;
+        border: 1px solid #ccc;
+      }
+      .box-ceb{
+        font-size: 50rpx;
+        font-weight: 600
+      }
+    }
+    .box-cb{
+      font-size: 40rpx;
+      font-weight: 500;
+      color: #000;
+    }
+    .box-cc{
+      width: 600rpx;
+      height: 90rpx;
+      line-height: 90rpx;
+      margin: 0 auto;
+      font-size: 40rpx;
+      font-weight: 500;
+      color: #fff;
+      background-color: #f9a400;
+      border-radius: 50rpx;
+    }
+  }
+  .box-d{
+    min-height: 80rpx;
+    line-height: 80rpx;
+    padding: 20rpx;
+    box-sizing: content-box;
+    margin-top: 25rpx;
+    border-radius: 20rpx;
+    background-color: #fff;
+    text-align: center;
+    .box-da{
+      font-size: 36rpx;
+      color: #ccc;
+      height: 30rpx;
+    }
+  }
+}
+
+</style>
