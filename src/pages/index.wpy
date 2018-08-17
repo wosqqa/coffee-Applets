@@ -1,6 +1,6 @@
 <template>
   <view class="box-fight">
-    <swiper class="swiper" indicator-active-color="{{indicatorActiveColor}}" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" circular="true">
+    <swiper wx:if="{{topShow}}" class="swiper" indicator-active-color="{{indicatorActiveColor}}" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" circular="true">
       <block wx:for="{{adList}}" wx:key="key">
         <swiper-item>
           <image src="{{item.picUrl}}" class="slide-image" data-adverturl="{{item.advertUrl}}" @tap="goToAdvert" />
@@ -15,33 +15,44 @@
       <text class="box-aca">惠</text>
       {{coffeeData.promotionList[0].name}}
     </view>
-    <view class="box-b">
+    <view  class="box-b" >
       <view class="box-ba">
-          <view class="box-baa" wx:for="{{coffeeData.menuList}}" wx:key="key">{{item.name}}</view>
+          <view class="box-baa" @tap="selectTab" data-id="{{tindex}}" style="{{active==tindex ? 'color:#ff477d;background-image: url('+item.iconUrl+');background-size:cover':''}}" wx:for="{{coffeeData.menuList}}" wx:for-index="tindex" wx:key="tindex">{{item.name}}</view>
       </view>
-      <view class="box-bb">
+      <scroll-view scroll-y scroll-top="{{scrollTop}}" upper-threshold="20" scrolltoupper="scrollToupper" class="box-bb" scroll-into-view="{{scrollToItem}}">
         <view class="box-bba" wx:for="{{coffeeData.menuList}}" wx:for-item="menuList" wx:for-index="menuindex" wx:key="menuindex">
-          <view class="box-bbaa">
+          <view class="box-bbaa" id="menu{{menuindex}}">
             {{menuList.name}}
           </view>
           <view class="box-bbab" wx:for="{{menuList.itemList}}" wx:for-item="menu" wx:for-index="index" wx:key="index">
-            <view class="box-bbaba"></view>
+            <view class="box-bbaba"> <image src="{{menu.imageUrl}}" class="box-bbabai" /> </view>
             <view class="box-bbabb">
               <view class="box-bbabba">{{menu.name}}</view>
               <view class="box-bbabbb">{{menu.summary}}</view>
               <view class="box-bbabbc">
                 <view class="box-bbabbca">￥{{menu.priceStr}}</view>
-                <view class="box-bbabbcb">-</view>
-                <view class="box-bbabbcd">1</view>
+                <view class="box-bbabbcf">-</view>
+                <view class="box-bbabbcd">5</view>
                 <view class="box-bbabbcb">+</view>
               </view>
-              
             </view>
-            
           </view>
         </view>
-      </view>
+        <view class="box-bbab"></view>
+        <view class="box-bbab"></view>
+      </scroll-view>
     </view>
+    <view class="box-c">
+        <view class="box-ca">
+           <image class="box-ca-img" src="{{item.picUrl}}"  @tap="goToAdvert" />
+        </view>
+        <view class="box-cb">
+          ￥1280
+          <view class="box-cba">含配送费5元</view>
+        </view>
+        <view class="box-cc">下单享用</view>
+    </view>
+
   </view>
 </template>
 <script>
@@ -55,7 +66,11 @@ export default class Index extends wepy.page {
   components = {};
   data = {
     indicatorDots: true,
-    active: "1",
+    active: "0",
+    topShow:false,
+    boxScrollTop:0,
+    scrollTop:100,
+    scrollToItem:'',
     autoplay: true,
     interval: 3000,
     duration: 1000,
@@ -680,126 +695,6 @@ export default class Index extends wepy.page {
           ]
         },
         {
-          name: "防弹咖啡",
-          iconUrl: "https://images.lyancafe.com/giftPacks/1520236848550.png",
-          selectedNightIconUrl:
-            "https://images.lyancafe.com/giftPacks/1524046004167.gif",
-          nightIconUrl:
-            "https://images.lyancafe.com/giftPacks/1524046004151.png",
-          titleImageUrl:
-            "https://images.lyancafe.com/menucategory/1532873375131.png",
-          type: 10,
-          nightSort: 0,
-          sort: 2,
-          itemList: [
-            {
-              itemId: 10798,
-              name: "冻防弹咖啡",
-              price: 3500,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1529052424812.png",
-              summary: "防弹咖啡冰饮版本，低碳无糖优脂，满足一天能量所需",
-              description:
-                "防弹咖啡冰饮版本，低温下口感依然顺滑无比。咖啡因强势唤醒大脑，在黄油和椰子油的双重加持下为人体提供充足能量。一杯冻防弹，回到最佳状态",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1529052659283.jpg",
-              sellOut: false,
-              sort: 3,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: false,
-              promotionPrice: 0,
-              priceStr: "35"
-            },
-            {
-              itemId: 10799,
-              name: "冻防弹路易波士",
-              price: 3500,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1529052513013.png",
-              summary: "选用南非国宝茶路易波士制作而成，不含咖啡因",
-              description:
-                "南非国宝茶路易波士搭配椰子油制作而成，优质脂肪与茶交融，爽滑醇香，路易波士自然的清甜带来多层次的丰富口感，不含咖啡因，满足不同时间需求",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1529052703979.jpg",
-              sellOut: false,
-              sort: 4,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: false,
-              promotionPrice: 0,
-              priceStr: "35"
-            },
-            {
-              itemId: 10685,
-              name: "防弹咖啡",
-              price: 3500,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1522815533303.png",
-              summary: "低碳、无糖、优脂，完美的早餐从一杯防弹咖啡开始",
-              description:
-                "咖啡因让大脑清醒，黄油和椰子油为人体提供所需能量。新西兰进口动物黄油，源自优质奶源，拥有香醇乳香味，冷榨椰子油中MCT含量高达60%以上",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1519967221377.jpg",
-              sellOut: false,
-              sort: 1029,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: false,
-              promotionPrice: 0,
-              priceStr: "35"
-            },
-            {
-              itemId: 10707,
-              name: "坚果防弹咖啡",
-              price: 3500,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1522815226805.png",
-              summary: "经典防弹咖啡中增添核桃香气，层次分明，风味独特",
-              description:
-                "浓郁黄油基调上又增添了一味核桃的特殊香气，层次分明，风味独特，不含添加糖。（过敏源提示：本产品配料中含有坚果及其果仁制品）",
-              descriptionUrl:
-                "https://images.lyancafe.com/product/1511084754388.jpeg",
-              sellOut: false,
-              sort: 1040,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: false,
-              promotionPrice: 0,
-              priceStr: "35"
-            },
-            {
-              itemId: 10726,
-              name: "防弹黑巧",
-              price: 3500,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1522815273684.png",
-              summary: "选用比利时进口可可粉，口感柔滑，不含咖啡",
-              description:
-                "不含咖啡的防弹家族成员。选用比利时进口可可粉，不含添加糖，可可脂含量26%，口感柔滑，巧克力风味浓郁",
-              descriptionUrl:
-                "https://images.lyancafe.com/product/1516008397503.jpg",
-              sellOut: false,
-              sort: 1041,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: false,
-              promotionPrice: 0,
-              priceStr: "35"
-            }
-          ]
-        },
-        {
           name: "甜品雪昔",
           iconUrl: "https://images.lyancafe.com/menucategory/1531471349506.png",
           selectedNightIconUrl:
@@ -992,6 +887,9 @@ export default class Index extends wepy.page {
   onShow() {
     let that = this;
   }
+  scrollToupper(e){
+      console.log(e)
+  }
   computed = {};
   methods = {
     goToAdvert(e) {
@@ -1006,8 +904,9 @@ export default class Index extends wepy.page {
     },
     selectTab(e) {
       //tab点击
-      console.log(e.currentTarget.dataset.id);
-      this.active = e.currentTarget.dataset.id;
+      let index =e.currentTarget.dataset.id;
+      this.scrollToItem = 'menu'+index;
+      this.active = index;
     }
   };
   events = {};
@@ -1015,7 +914,7 @@ export default class Index extends wepy.page {
 </script>
 <style lang="less">
 .box-fight {
-  position: relative;
+  position: fixed;
   width: 100%;
   height: 100%;
   left: 0;
@@ -1027,43 +926,29 @@ export default class Index extends wepy.page {
       height: 100%;
     }
   }
-  .header {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: flex-start;
-    background-color: #f4f4f4;
-    .header_content {
-      margin-top: 20rpx;
-      padding: 20rpx 50rpx;
-      color: #f8bd50;
-      font-size: 34rpx;
-      font-weight: 600;
-      .header_subcontent {
-        font-size: 24rpx;
-        display: block;
-        font-weight: 600;
-      }
-    }
-    .active {
-      background-color: #fff;
-      border-top-right-radius: 90px 120px;
-    }
-  }
   .box-b{
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
     .box-ba{
-      width: 280rpx;
+      width: 160rpx;
+      height: 100%;
       background-color: #f8f8f8;
+      color: #333;
+      float:left;
       .box-baa{
-        height: 150rpx;
-        line-height: 150rpx;
+        height: 100rpx;
+        line-height: 100rpx;
         text-align: center;
+        font-size: 26rpx;
+      }
+      .active{
+        background-color: #fff;
       }
     }
     .box-bb{
-      width: 977rpx;
+      width: 590rpx;
+      float:right;
       .box-bba{
         .box-bbaa{
           height: 80rpx;
@@ -1071,53 +956,79 @@ export default class Index extends wepy.page {
           padding-left: 30rpx;
         }
         .box-bbab{
-          height: 310rpx;
+          height: 200rpx;
           display: flex;
           flex-flow: row nowrap;
           justify-content: space-between;
+          margin: 15rpx auto;
           .box-bbaba{
             width: 200rpx;
-            background-color: #f8bd50;
+            height: 200rpx;
+            padding: 20rpx;
+            .box-bbabai{
+              width: 160rpx;
+              height: 160rpx;   
+            }
           }
           .box-bbabb{
-            width: 400rpx;
+            width: 390rpx;
             padding: 10rpx;
+            box-sizing:border-box;
             .box-bbabba{
+              height: 50rpx;
+              line-height: 50rpx;
               color: #333;
               font-size: 30rpx;
-              font-weight: 500;
+              font-weight: 600;
             }
             .box-bbabbb{
               color: #999;
-              font-size: 28rpx;
+              font-size: 24rpx;
               font-weight: 400;
             }
             .box-bbabbc{
               color: #333;
+              height: 70rpx;
+              line-height: 70rpx;
               font-size: 30rpx;
               font-weight: 500;
               display: flex;
               flex-flow: row nowrap;
               justify-content: space-between;
-              margin: 0 20rpx 0 10rpx;
+              padding: 10rpx 30rpx 10rpx 10rpx;
               .box-bbabbca{
                 width: 200rpx;
                 color: #f6a110;
-                font-size: 50rpx;
+                font-size: 34rpx;
               }
               .box-bbabbcb{
-                width: 60rpx;
-                height: 60rpx;
-                line-height: 50rpx;
+                width: 54rpx;
+                height: 48rpx;
+                line-height: 40rpx;
+                margin: 11rpx 0;
+                box-sizing:content-box;
                 text-align: center;
-                font-size: 70rpx;
+                font-size: 60rpx;
                 font-weight: 500;
                 color: #fff;
                 background-color: #f6a110;
                 border-radius: 50rpx;
               }
+              .box-bbabbcf{
+                width: 54rpx;
+                height: 48rpx;
+                line-height: 40rpx;
+                margin: 11rpx 0;
+                box-sizing:content-box;
+                text-align: center;
+                font-size: 60rpx;
+                font-weight: 500;
+                color: #fff;
+                background-color: #ffcc66;
+                border-radius: 50rpx;
+              }
               .box-bbabbcd{
-                font-size: 50rpx;
+                font-size: 36rpx;
                 width: 80rpx;
                 text-align: center;
               }
@@ -1128,17 +1039,64 @@ export default class Index extends wepy.page {
     }
   }
   .box-ac{
-    height: 116rpx;
-    line-height: 116rpx;
+    width: 750rpx;
+    height: 70rpx;
+    line-height: 70rpx;
     padding-left: 40rpx;
-    border: 1rpx solid #ccc;
-    font-size: 26rpx;
+    box-sizing:border-box;
+    border-bottom: 1rpx solid #ccc;
+    font-size: 24rpx;
+    color: #333;
     .box-aca{
       background-color: #ff6666;
       border-radius: 8rpx;
       color: #fff;
       padding: 5rpx 8rpx;
-      font-size: 28rpx;
+      font-size: 26rpx;
+    }
+  }
+  .box-c{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 750rpx;
+    height: 100rpx;
+    line-height: 100rpx;
+    border-top: 1rpx solid #ddd;
+    background-color: #fff;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    .box-ca{
+      width: 150rpx;
+      .box-ca-img{
+        width: 120rpx;
+        height: 100rpx;
+      }
+    }
+    .box-cb{
+      color: #cc4444;
+      font-size: 40rpx;
+      line-height:40rpx;
+      margin-top: 10rpx;
+      flex-grow: 1;
+      text-align: left;
+      .box-cba{
+        color: #999;
+        font-size: 28rpx;
+      }
+    }
+    .box-cc{
+      width: 198rpx;
+      height: 80rpx;
+      line-height: 80rpx;
+      margin: 10rpx 0;
+      color: #fff;
+      text-align: center;
+      font-size: 30rpx;
+      background-color: #f6a110;
+      border-radius: 10rpx;
+      margin-right: 10rpx;
     }
   }
 }
