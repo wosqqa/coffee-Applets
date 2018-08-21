@@ -11,15 +11,20 @@
       <view class="box-aa">咖啡库</view>
       <view class="box-ab">参与拼团</view>
     </view> -->
-    <view class="box-ac">
+    <view class="box-ac" wx:if="{{coffeeData.promotionList.length>0}}">
       <text class="box-aca">惠</text>
       {{coffeeData.promotionList[0].name}}
     </view>
+    <view class="box-ac" wx:else>
+      <text class="box-aca">折</text>
+      精品咖啡下单有折扣
+    </view>
+
     <view  class="box-b" >
       <view class="box-ba">
           <view class="box-baa" @tap="selectTab" data-id="{{tindex}}" style="{{active==tindex ? 'color:#ff477d;background-image: url('+item.iconUrl+');background-size:cover':''}}" wx:for="{{coffeeData.menuList}}" wx:for-index="tindex" wx:key="tindex">{{item.name}}</view>
       </view>
-      <scroll-view scroll-y scroll-top="{{scrollTop}}" upper-threshold="20" scrolltoupper="scrollToupper"
+      <scroll-view scroll-y scroll-top="{{scrollTop}}" upper-threshold ='50' @scroll="scrollToupper"
       style="{{topShow ? 'padding-top:390rpx;box-sizing:border-box;' : 'padding-top:70rpx;box-sizing:border-box;'}}" class="box-bb" scroll-into-view="{{scrollToItem}}">
         <view class="box-bba" wx:for="{{coffeeData.menuList}}" wx:for-item="menuList" wx:for-index="menuindex" wx:key="menuindex">
           <view class="box-bbaa" id="menu{{menuindex}}">
@@ -51,7 +56,7 @@
           ￥{{cartTotal}}
           <view class="box-cba">含配送费5元</view>
         </view>
-        <view class="box-cc">下单享用</view>
+        <view class="box-cc" @tap="submitOrder">下单享用</view>
     </view>
     <view class="box-d" wx:if="{{cartInfo}}">
         <view class="box-db">
@@ -92,737 +97,7 @@ export default class Index extends wepy.page {
     cartTotal:0,
     cartData:[],
     indicatorActiveColor: "#fff",
-    coffeeData: {
-      menuList: [
-        {
-          name: "一期一会",
-          iconUrl: "https://images.lyancafe.com/menucategory/1534390039918.png",
-          selectedNightIconUrl: null,
-          nightIconUrl: null,
-          titleImageUrl: null,
-          type: 10,
-          nightSort: 0,
-          sort: 6,
-          itemList: [
-            {
-              itemId: 10473,
-              name: "冰美式",
-              cartNum:0,
-              price: 2200,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/product/473/cafe_convert.png",
-              summary: "精确比例拼配6支阿拉比卡咖啡豆，与众不同的惊艳",
-              description:
-                "前段体现出独特的乌梅酒香，同时带有黑醋栗般的尾韵与高甜度的口感。低温放大了咖啡豆的独特风味，口感扎实丰富且尾韵绵延细长",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1519968003764.jpg",
-              sellOut: false,
-              sort: 0,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 170,
-              priceStr: "22"
-            },
-            {
-              itemId: 10469,
-              name: "热美式",
-              price: 2200,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/product/469/cafe_convert.png",
-              summary: "精确比例拼配6支阿拉比卡咖啡豆，与众不同的惊艳",
-              description:
-                "前段体现出独特的乌梅酒香，同时带有黑醋栗般的尾韵与高甜度的口感。中后段口感具有明显的奶油以及黑糖、焦糖般风味，口感扎实丰富且尾韵绵延细长",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1519967925218.jpg",
-              sellOut: false,
-              sort: 1,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 170,
-              priceStr: "22"
-            },
-            {
-              itemId: 10774,
-              name: "经典莫吉托",
-              price: 2800,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1529910576711.png",
-              summary: "含酒精且含气，12oz，未成年人请勿饮酒，酒后请勿驾驶",
-              description:
-                "杯经典的青柠莫吉托永不过时。选用百加得白朗姆酒搭配青柠、薄荷、苏打水，清凉的薄荷散发出迷人气息，欲擒故纵的最佳范本",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1523957013951.jpg",
-              sellOut: false,
-              sort: 1,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 170,
-              priceStr: "28"
-            },
-            {
-              itemId: 10788,
-              name: "冷萃咖啡",
-              price: 2800,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1526026192944.png",
-              summary: "24小时低温萃取，独有坚果、可可和麦芽糖香气",
-              description:
-                "冷萃专用咖啡豆，甜度极佳、酸感轻柔舒适，具有强劲的厚实感和迷人的花果香气。Crema细腻丰厚，独有坚果、可可和麦芽糖的甜香气",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1526035281497.jpeg",
-              sellOut: false,
-              sort: 1,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 170,
-              priceStr: "28"
-            },
-            {
-              itemId: 10775,
-              name: "仲夏莫吉托",
-              price: 2800,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1529910601218.png",
-              summary: "含酒精且含气，12oz，未成年人请勿饮酒，酒后请勿驾驶",
-              description:
-                "在经典莫吉托的基础上加入热情的菠萝，搭配活泼的青柠，仲夏的激情从此刻开始点燃，什么都别说了，跟上节奏，舞池的C位属于你",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1523957039434.jpg",
-              sellOut: false,
-              sort: 2,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 170,
-              priceStr: "28"
-            },
-            {
-              itemId: 10793,
-              name: "长岛冰茶",
-              price: 3100,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1529910504894.png",
-              summary: "李诞同款，酒劲十足，未成年请勿饮酒，酒后请勿驾驶",
-              description:
-                "在经典长岛冰茶基础上，将可乐升级为南非国宝茶路易波士，温和甘甜的低调外表下，加入多款百加得经典基酒，隐藏了令人刮目相看的后作力",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1527230326996.jpg",
-              sellOut: false,
-              sort: 3,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 170,
-              priceStr: "31"
-            },
-            {
-              itemId: 10797,
-              name: "柚见佳人",
-              price: 3100,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1528969795096.png",
-              summary: "红西柚风味鸡尾酒，未成年请勿饮酒，酒后请勿驾驶",
-              description:
-                "红西柚风味结合百加得孟买蓝宝石金酒的植物芬芳，酸甜清新，层次丰富。顶部漂浮的慕斯奶沫让口感变得更加润滑，柔美粉红色让人好感度倍增",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1528876843415.jpg",
-              sellOut: false,
-              sort: 4,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 170,
-              priceStr: "31"
-            }
-          ]
-        },
-        {
-          name: "勿弃勿离",
-          iconUrl: "https://images.lyancafe.com/menucategory/1534390060060.png",
-          selectedNightIconUrl: null,
-          nightIconUrl: null,
-          titleImageUrl: null,
-          type: 10,
-          nightSort: 0,
-          sort: 5,
-          itemList: [
-            {
-              itemId: 10474,
-              name: "冰拿铁",
-              price: 2800,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/product/474/cafe_convert.png",
-              summary: "精选拼配阿拉比卡咖啡豆，配上优质牛奶，甜感十足",
-              description:
-                "口感均衡细滑的浓缩咖啡，加入牛奶后展现出热带水果的香甜味，降至冰点后的拿铁清爽加倍。采用超高温瞬间灭菌工艺优质牛奶，保留众多营养物质",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1519968030950.jpg",
-              sellOut: false,
-              sort: 0,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 570,
-              priceStr: "28"
-            },
-            {
-              itemId: 10470,
-              name: "热拿铁",
-              price: 2800,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/product/470/cafe_convert.png",
-              summary: "精选拼配阿拉比卡咖啡豆，配上光明牛奶，甜感十足",
-              description:
-                "口感均衡细滑的浓缩咖啡，加入牛奶后展现出热带水果的香甜味，简单就是经典。采用国际先进超高温瞬间灭菌工艺优质牛奶，保留众多营养物质",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1519967936230.jpg",
-              sellOut: false,
-              sort: 1,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 570,
-              priceStr: "28"
-            },
-            {
-              itemId: 10802,
-              name: "小红莓金汤力",
-              price: 3300,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1530599314713.png",
-              summary: "经典金汤力基础上加入蔓越莓，重新定义这款鸡尾酒",
-              description:
-                "当跳跃的红色蔓越莓落入汤力水的怀抱，莓果的酸甜平衡了金酒的辛辣，还将汤力水的微苦修饰得恰到好处，和冰块一起带来刺激爽快的口感，没人能够拒绝。未成年请勿饮酒，酒后请勿驾驶。",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1530599806317.jpeg",
-              sellOut: false,
-              sort: 3,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 570,
-              priceStr: "33"
-            },
-            {
-              itemId: 10702,
-              name: "天生的粉椰子水",
-              price: 2500,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1521785265435.png",
-              summary: "泰国进口Nam Hom椰子水，天生粉色，好喝颜值高",
-              description:
-                "未经高温处理的新鲜泰国Nam Hom嫩椰水，经过光照，部分椰子水会变成幸运的粉红色，天生高颜值。不含添加糖，健康无负担，不含咖啡因",
-              descriptionUrl:
-                "https://images.lyancafe.com/product/702/product_describe.jpg",
-              sellOut: false,
-              sort: 4,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 570,
-              priceStr: "25"
-            }
-          ]
-        },
-        {
-          name: "双宿双栖",
-          iconUrl: "https://images.lyancafe.com/menucategory/1534390083238.png",
-          selectedNightIconUrl: null,
-          nightIconUrl: null,
-          titleImageUrl: null,
-          type: 10,
-          nightSort: 0,
-          sort: 4,
-          itemList: [
-            {
-              itemId: 10789,
-              name: "生气的冷萃",
-              price: 3100,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1526458528866.png",
-              summary: "有气泡的冷萃，咖啡香气在气泡的鼓动下在舌尖炸开",
-              description:
-                "24小时低温萃取的冷萃，甜度极佳、酸感轻柔舒适，有些许香橙风味。冷萃咖啡恰到好处的酸度混合热带水果柔和香气，在气泡的鼓动下在舌尖炸开",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1526035301563.jpeg",
-              sellOut: false,
-              sort: 1,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 770,
-              priceStr: "31"
-            },
-            {
-              itemId: 10475,
-              name: "冰摩卡",
-              price: 3100,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/product/475/cafe_convert.png",
-              summary: "咖啡加上比利时进口可可粉，浓郁风味，口感柔滑",
-              description:
-                "温度降至冰点的摩卡咖啡，咖啡风味不减，口感柔滑令人爱不释手，清爽又不腻。选用比利时进口可可粉，可可脂含量26%，巧克力风味浓郁",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1519968041005.jpg",
-              sellOut: false,
-              sort: 2,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 770,
-              priceStr: "31"
-            },
-            {
-              itemId: 10627,
-              name: "冰香草拿铁",
-              price: 3100,
-              unit: "杯",
-              imageUrl: "https://images.lyancafe.com/product/1511168373722.png",
-              summary: "最受女生喜爱的香草拿铁，难以抵抗的经典味道",
-              description:
-                "女生最爱的口味排名，香草一定在上位圈。清新淡雅的香荚兰风味，永不过时的经典风味，当然也要搭配精选阿拉比卡咖啡豆拼配的拿铁，口感更加丰富",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1519967174062.jpg",
-              sellOut: false,
-              sort: 3,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 770,
-              priceStr: "31"
-            },
-            {
-              itemId: 10792,
-              name: "冰焦糖拿铁",
-              price: 3100,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1526525783471.png",
-              summary: "焦糖的存在，就是为了让苦涩的咖啡更加甜美可人",
-              description:
-                "不习惯咖啡苦味的人，也难逃焦糖拿铁的魅力，忍不住为它疯狂打Call，爱上这枚小甜豆，感觉生活也会变甜",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1526526383947.jpg",
-              sellOut: false,
-              sort: 4,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 770,
-              priceStr: "31"
-            },
-            {
-              itemId: 10791,
-              name: "冰榛果拿铁",
-              price: 3100,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1526525453134.png",
-              summary: "榛果的醇厚香甜，让味蕾有更深刻的美好记忆",
-              description:
-                "经典拿铁中加入优质榛果糖浆，冰块将甜度封存得刚刚好，加之榛果的醇香，带来丰富的满足感，让味蕾有更深刻的美好记忆",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1526526363021.jpg",
-              sellOut: false,
-              sort: 5,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 770,
-              priceStr: "31"
-            },
-            {
-              itemId: 10471,
-              name: "热摩卡",
-              price: 3100,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/product/471/cafe_convert.png",
-              summary: "咖啡加上比利时进口可可粉，浓郁风味，口感柔滑",
-              description:
-                "摩卡就是咖啡与巧克力的微妙平衡。选用比利时进口可可粉，可可脂含量26%，巧克力风味浓郁，咖啡风味不减，口感柔滑令人爱不释手，清爽又不腻",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1519967959122.jpg",
-              sellOut: false,
-              sort: 6,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 770,
-              priceStr: "31"
-            },
-            {
-              itemId: 10472,
-              name: "热巧克力",
-              price: 2800,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/product/472/cafe_convert.png",
-              summary: "从不让人失望的经典热巧，能瞬间治愈孤独的灵魂",
-              description:
-                "选用比利时进口可可粉，可可脂含量26%，巧克力风味浓郁，口感醇厚，从不让人失望的经典治愈热饮，给你萦回环绕的安全感和幸福感",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1519967985616.jpg",
-              sellOut: false,
-              sort: 7,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 770,
-              priceStr: "28"
-            },
-            {
-              itemId: 10521,
-              name: "热焦糖拿铁",
-              price: 3100,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/product/521/cafe_convert.png",
-              summary: "焦糖的存在，就是为了让苦涩的咖啡更加甜美可人",
-              description:
-                "不习惯咖啡苦味的人，也难逃焦糖拿铁的魅力，忍不住为它疯狂打Call，爱上这枚小甜豆，感觉生活也会变甜",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1519968060584.jpg",
-              sellOut: false,
-              sort: 8,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 770,
-              priceStr: "31"
-            },
-            {
-              itemId: 10520,
-              name: "热香草拿铁",
-              price: 3100,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/product/520/cafe_convert.png",
-              summary: "最受女生喜爱的香草拿铁，难以抵抗的经典味道",
-              description:
-                "女生最爱的口味排名，香草一定在上位圈。清新淡雅的香荚兰风味，永不过时的经典风味，当然也要搭配精选阿拉比卡咖啡豆拼配的拿铁，口感更加丰富",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1519968051073.jpg",
-              sellOut: false,
-              sort: 9,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 770,
-              priceStr: "31"
-            },
-            {
-              itemId: 10526,
-              name: "热太妃榛果拿铁",
-              price: 3300,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/product/526/cafe_convert.png",
-              summary: "入口那一刻，像是吃到了一颗奶香浓郁的太妃糖",
-              description:
-                "选用哈根达斯同款榛果糖浆，口感悠长顺滑，只为给你带来最美好的回味，如圆舞曲般优雅。谁规定热太妃榛果拿铁只有冬天才能喝",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1519967109117.jpg",
-              sellOut: false,
-              sort: 10,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 770,
-              priceStr: "33"
-            },
-            {
-              itemId: 10790,
-              name: "生气的粉椰",
-              price: 2800,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1526548321042.png",
-              summary: "带气泡的粉色椰子水，同时拥有清甜椰香与酷爽口感",
-              description:
-                "每一口都冒着少女心的粉色气泡，包裹着椰子的香气，从口腔狂奔到喉咙的清凉感，一扫炎夏的粘腻。不含添加糖，健康无负担，不含咖啡因",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1526461796573.jpg",
-              sellOut: false,
-              sort: 11,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 770,
-              priceStr: "28"
-            },
-            {
-              itemId: 10794,
-              name: "打气的麦芽",
-              price: 2800,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1528446508988.png",
-              summary: "无酒精的“啤酒”，拥有醇正麦芽香，鼓足气，嘬一口冰爽",
-              description:
-                "十足的啤酒麦芽香，细腻丰富的泡沫，伴着激烈的夏日赛事，无酒精，却能让你更加沉醉。如果麦芽也是球迷，它一定会鼓足了劲加油「打气」",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1528446510428.jpg",
-              sellOut: false,
-              sort: 11,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 770,
-              priceStr: "28"
-            },
-            {
-              itemId: 10795,
-              name: "打气的玫瑰",
-              price: 2800,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1528446580569.png",
-              summary: "无酒精的“啤酒”中透出玫瑰花香，鼓足气，嘬一口冰爽",
-              description:
-                "在「打气的麦芽」中放入大朵优质可食用的“重瓣玫瑰”，甜甜的幸福感在心中绽放。进球的瞬间，心中乐出朵朵玫瑰花，就知道没白「打气」",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1528446581578.jpg",
-              sellOut: false,
-              sort: 13,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: true,
-              promotionPrice: 770,
-              priceStr: "28"
-            }
-          ]
-        },
-        {
-          name: "精品咖啡",
-          iconUrl: "https://images.lyancafe.com/giftPacks/1525660285406.gif",
-          selectedNightIconUrl:
-            "https://images.lyancafe.com/menucategory/1530515938875.gif",
-          nightIconUrl:
-            "https://images.lyancafe.com/menucategory/1530515938858.png",
-          titleImageUrl:
-            "https://images.lyancafe.com/menucategory/1532873397234.png",
-          type: 10,
-          nightSort: 0,
-          sort: 3,
-          itemList: [
-            {
-              itemId: 10806,
-              name: "日晒耶加冰拿铁",
-              price: 3100,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1533697351837.png",
-              summary: "耶加雪菲G1单品豆加单一牧场纯牛乳，就是好喝的拿铁",
-              description:
-                "一杯好喝的冰拿铁，12oz刚刚好。精选耶加雪菲高级别G1单品豆，日晒方式保留了熟果香和果汁感，搭配单一牧场新鲜纯牛乳，带来令人愉悦的精神力量。",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1533697405460.jpg",
-              sellOut: false,
-              sort: 1,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: false,
-              promotionPrice: 0,
-              priceStr: "31"
-            },
-            {
-              itemId: 10796,
-              name: "冰日晒耶加雪菲",
-              price: 2800,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1531214294272.png",
-              summary: "高级别G1单品豆，日晒生豆处理，代号「浆果」",
-              description:
-                "浆果——耶加雪菲高级别G1单品豆，日晒生豆处理，保留更多胶质，带来更加丰沛醇厚的味道。香气热烈似酒，香醇滑润的口感在众多豆子里别具一格。（容量12oz）",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1530067728048.jpg",
-              sellOut: false,
-              sort: 2,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: false,
-              promotionPrice: 0,
-              priceStr: "28"
-            },
-            {
-              itemId: 10781,
-              name: "日晒耶加雪菲",
-              price: 2800,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1531214311041.png",
-              summary: "高级别G1单品豆，日晒生豆处理，代号「浆果」",
-              description:
-                "浆果——耶加雪菲高级别G1单品豆，日晒生豆处理，保留更多胶质，带来更加丰沛醇厚的味道。香气热烈似酒，香醇滑润的口感在众多豆子里别具一格。（容量12oz）",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1524128129311.jpg",
-              sellOut: false,
-              sort: 3,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: false,
-              promotionPrice: 0,
-              priceStr: "28"
-            }
-          ]
-        },
-        {
-          name: "甜品雪昔",
-          iconUrl: "https://images.lyancafe.com/menucategory/1531471349506.png",
-          selectedNightIconUrl:
-            "https://images.lyancafe.com/menucategory/1533291517502.gif",
-          nightIconUrl:
-            "https://images.lyancafe.com/menucategory/1533291517489.png",
-          titleImageUrl:
-            "https://images.lyancafe.com/menucategory/1533291517463.png",
-          type: 10,
-          nightSort: 0,
-          sort: 1,
-          itemList: [
-            {
-              itemId: 10804,
-              name: "蔓莓无花果雪昔",
-              price: 3500,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1531387856967.png",
-              summary: "无花果+黑糖+蔓越莓的惊喜组合，口感酸甜，不含咖啡因",
-              description:
-                "融合了无花果果肉、古法黑糖与新鲜蔓越莓的多层次口感，自然的甜香\r\n中带有果肉的咀嚼感，蔓越莓中和了黑糖的甜，优质奶油混合清爽冰沙，不含咖啡因",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1531388160806.jpg",
-              sellOut: false,
-              sort: 0,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: false,
-              promotionPrice: 0,
-              priceStr: "35"
-            },
-            {
-              itemId: 10805,
-              name: "甜蜜暴击",
-              price: 3300,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1533879640467.png",
-              summary: "可以喝的提拉米苏，感受咖啡、奥利奥与朗姆酒甜蜜暴击",
-              description:
-                "浸透了冷萃咖啡的奥利奥与甘醇白朗姆在唇齿间竞赛，咖啡的微苦混入醉人酒香，搭配绵密鲜奶油，像一整块提拉米苏化于舌尖。本品含少量酒精。",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1532067681231.jpg",
-              sellOut: false,
-              sort: 0,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: false,
-              promotionPrice: 0,
-              priceStr: "33"
-            },
-            {
-              itemId: 10584,
-              name: "摩卡奥利奥雪昔",
-              price: 3300,
-              unit: "杯",
-              imageUrl: "https://images.lyancafe.com/product/1512354012382.png",
-              summary: "奥利奥饼干碎让咀嚼乐趣无处不在，经典不可替代",
-              description:
-                "经典单品奥利奥饼干，现已加入摩卡雪昔人气饮品，带来非同一般的奇妙口感，巧克力风味浓郁，奥利奥饼干碎让咀嚼的乐趣无处不在，相信你会爱上它",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1519967150729.jpg",
-              sellOut: false,
-              sort: 1,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: false,
-              promotionPrice: 0,
-              priceStr: "33"
-            },
-            {
-              itemId: 10773,
-              name: "牛油果雪昔",
-              price: 3500,
-              unit: "杯",
-              imageUrl:
-                "https://images.lyancafe.com/salegoods/1526523674764.png",
-              summary: "牛油果冰沙与淡奶油的“最佳拍档”，不含咖啡因",
-              description:
-                "冰沙的清爽，奶油的醇香，互相平衡后的牛油果雪昔，天作之合的最佳搭配。不含咖啡因",
-              descriptionUrl:
-                "https://images.lyancafe.com/salegoods/1522301436271.jpg",
-              sellOut: false,
-              sort: 3,
-              inSaleTime: "预订明日",
-              startTime: "00:00",
-              endTime: "20:30",
-              hasPromotion: false,
-              promotionPrice: 0,
-              priceStr: "35"
-            }
-          ]
-        }
-      ],
-      promotionList: [
-        {
-          id: 0,
-          name: "七夕特惠，每位用户可下2单，每单最多4杯哦~",
-          comment: null,
-          incentiveType: "p",
-          desc: null,
-          disabled: false
-        }
-      ],
-      cart: null
-    },
+    coffeeData: {},
     adList: [
       {
         advertUrl: "/pages/home?code=020",
@@ -839,6 +114,7 @@ export default class Index extends wepy.page {
     let userInfo = wepy.getStorageSync(USER_INFO);
     that.avatarUrl = userInfo.avatarUrl;
     that.nickName = userInfo.nickName;
+    that.getGoodsList();
   }
   watch = {
       cartData(newValue,oldValue) {
@@ -867,10 +143,39 @@ export default class Index extends wepy.page {
     let that = this;
   }
   scrollToupper(e){
-      console.log(e)
+      if(e.detail.scrollTop>50){
+         this.topShow = false;
+      }else{
+        this.topShow = true;
+      }
+      this.$apply();
   }
-  computed = {};
+  async getGoodsList() {
+    let that = this;
+    const json = await api.mainGetgoods({
+      query: {
+        city_code: '021',
+        environment: 'production',
+        client_session_key:'ada96d1fef14470ba57af4557439f740'
+      }
+    });
+    if (json.data.code == 200) {
+      that.coffeeData=json.data.data
+    } else {
+      that.error(json.data.message)
+    }
+    that.$apply();
+  }
   methods = {
+    submitOrder(){
+      console.log(this.$parent.globalData.cartData)
+      this.$parent.globalData.cartData =this.cartData;
+      this.$apply();
+      console.log(this.$parent.globalData.cartData)
+      wepy.navigateTo({
+                url: "/pages/order_list"
+      })
+    },
     addCartNum(e){
       let index = e.currentTarget.dataset.index;
       this.cartData[index].cartNum ++
@@ -1103,7 +408,8 @@ export default class Index extends wepy.page {
       border-radius: 8rpx;
       color: #fff;
       padding: 5rpx 8rpx;
-      font-size: 26rpx;
+      font-size: 24rpx;
+      margin-right: 8rpx;
     }
   }
   .box-c{

@@ -18,7 +18,7 @@
       </view> -->
     </view>
     <view class="info_block"  wx:if="{{active==1}}">
-      <navigator class="item" wx:for="{{groupActivityVo}}" wx:key="key" url="/pages/goods_info?id={{item.id}}">
+      <navigator class="item" wx:for="{{groupActivityVo}}" wx:key="key" url="/pages/goods_info?id={{item._id}}">
         <view  class="item_content">
           <view class="item_top">
             <image class="item_img" src="{{item.imageUrl}}" />
@@ -37,7 +37,7 @@
       </navigator>
     </view>
     <view class="info_block" wx:if="{{active==2}}">
-      <navigator class="item" wx:for="{{oldListActivityVo}}" wx:key="key" url="/pages/goods_info?id={{item.id}}">
+      <navigator class="item" wx:for="{{oldListActivityVo}}" wx:key="key" url="/pages/goods_info?id={{item._id}}">
         <view  class="item_content">
           <view class="item_top">
             <image class="item_img" src="{{item.imageUrl}}" />

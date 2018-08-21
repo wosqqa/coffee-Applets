@@ -1,0 +1,75 @@
+<template>
+  <view class="box-order">
+      <view class="box-a">地址</view>
+      <view class="box-b">都打</view>
+      <view class="box-c">
+          <view class="box-ca">
+              <view class="box-caa">都打</view>
+              <view class="box-caa">都打</view>
+              <view class="box-caa">都打</view>
+          </view>
+        <view class="box-cb">配送费</view>
+        <view class="box-cc">优惠</view>
+        <view class="box-cd">总计</view>
+      </view>
+      <view class="box-d">备注</view>
+      <view class="box-e">微信支付</view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import api from '@/api/api';
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: '确认订单',
+  }
+  components = {
+
+  }
+
+  data = {
+    goodsDeatil: '',
+    avatarUrl: "",
+    nickName: "",
+    bShowBind:true
+  }
+
+  onLoad(options) {
+    let that = this;
+    that.getActivityDetail(options.groupId);
+  }
+  onShow(){
+    let that = this;
+  }
+  async getActivityDetail(id) {
+    let that = this;
+    const json = await api.activityDetail({
+      query: {
+        city_code: '021',
+        menu_id: id,
+        client_session_key:'ada96d1fef14470ba57af4557439f740'
+      }
+    });
+    if (json.data.code == 200) {
+      console.log(json.data);
+      that.goodsDeatil=json.data.data
+      // that.oldListActivityVo=json.data.data.oldListActivityVo
+      console.log(that.goodsDeatil);
+    } else {
+      tip.error(json.data.message)
+    }
+    that.$apply();
+  }
+  methods = {
+
+  }
+  events = {
+
+  }
+}
+
+</script>
+<style lang="less">
+
+
+</style>
