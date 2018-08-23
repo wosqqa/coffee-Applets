@@ -192,6 +192,8 @@ export default class Index extends wepy.page {
         cartNum:1,
         menuindex:menuindex,
         index:index,
+        remark:'',
+        status:false,
         id:id
       }
       let cartIndex = this.cartData.findIndex(function(item, index, arr) {

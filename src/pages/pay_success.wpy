@@ -2,10 +2,10 @@
   <view class="pay_info">
     <image class="bg_img" mode="widthFix"  src="../images/paysuccess.jpeg"/>
     <view class="box">
-      <view class="box_c">您可以继续查看拼团详情，</view>
+      <view class="box_c">您可以继续查看订单详情，</view>
       <view class="box_c">快拉上好友一起拼吧~</view>
       <button class="box_a" open-type="share">邀请好友</button>
-      <view class="box_b" @tap="getOrderInfo">拼团详情</view>
+      <view class="box_b" @tap="getOrderInfo">订单详情</view>
     </view>
     
   </view>

@@ -1,31 +1,61 @@
 <template>
   <view class="box-order">
-      <view class="box-a">地址</view>
-      <view class="box-b">到达时间</view>
+     <scroll-view scroll-y style="margin-bottom:110rpx;">
+      <view class="box-a" wx:if="{{myAddress==''}}" @tap="chooseAddress">
+        <text class="box-aba">+</text>
+        <view class="box-ab">添加配送地址信息</view>
+      </view>
+      <view class="box-a" wx:else>
+        {{myAddress}}
+        <view class="box-aa">
+          <text >{{myName}}</text>
+          <text class="box-aab">{{myPhone}}</text>
+        </view>
+      </view>
+      <view class="box-b">到达时间
+        <picker mode="time" value="{{sendTime}}" start="09:00" end="21:00" @change="sendTimeChange">
+          <view class="picker">
+            <text wx:if="{{sendTime==''}}">请选择配送时间点</text>
+            <text wx:else>尽快在 {{sendTime}} 左右送达</text>
+           
+          </view>
+        </picker>
+      </view>
       <view class="box-c">
         <view class="box-cl">
           <view class="box-ca" wx:for="{{cartData}}" wx:key="index">
               <view class="box-caa">
                 <view class="box-caab">{{item.name}}<text class="box-caaba">x{{item.cartNum}}</text></view> <view class="box-caab">￥{{item.price}}</view>
               </view>
-              <view class="box-caa"><text class="box-caaba">标准、加冰</text><view class="box-caabb">口味定制</view></view>
+              <view class="box-caa">
+                <input class="box-caaba" placeholder-style='font-size: 26rpx;color: #c2c2c2;' placeholder="输入想要的口味/配件" wx:if="{{item.status}}" 
+                focus="{{item.status}}" @input='changeInput' @blur="closeFocus" maxlength="20" @confirm ="closeFocus" data-index="{{index}}"/>
+                <text class="box-caaba" wx:else>{{item.remark}}</text>
+              <view class="box-caabb" @tap="changeFocus" data-index="{{index}}">口味定制</view></view>
           </view>
           <view class="box-cb"> 
             <view class="box-cba">配送费</view>
-            <view class="box-cba">￥5</view>
+            <view class="box-cba">￥{{sendFee}}</view>
           </view>
-          <view class="box-cb"> 
+          <view class="box-cb" wx:if='{{discount>0}}'> 
             <view class="box-cba">优惠</view>
-            <view class="box-cbe">￥5 <text class="arrow">&gt;</text></view>
+            <view class="box-cbe">￥{{discount}} <text class="arrow">&gt;</text></view>
           </view>
           <view class="box-cb"> 
-            <view class="box-cbc">总计￥168</view>
-            <view class="box-cbb">还需支付<text class="box-cbba">￥160</text></view>
+            <view class="box-cbc">总计￥{{totalMoney}}</view>
+            <view class="box-cbb">还需支付<text class="box-cbba">￥{{totalMoney-discount}}</text></view>
           </view>
         </view>
       </view>
-      <view class="box-d">备注</view>
-      <view class="box-e"><view  class="box-ea">￥50</view><view  class="box-eb">微信支付</view></view>
+      <view class="box-d">备注
+        <input class="box-da" placeholder-style='font-size: 28rpx;color: #c2c2c2;'
+         placeholder="对店长/骑手哥哥说的话" maxlength="30"  @input='changeInputRem'/>
+        <text class="arrow">&gt;</text>
+      </view>
+      </scroll-view>
+      <view class="box-e"><view  class="box-ea">￥{{totalMoney-discount}}</view>
+      <view wx:if="{{myAddress==''}}" class="box-ec">微信支付</view>
+      <view wx:else class="box-eb" @tap='submitOrder'>微信支付</view></view>
   </view>
 </template>
 <script>
@@ -42,6 +72,14 @@ export default class Index extends wepy.page {
 
   data = {
     goodsDeatil: '',
+    remarks:'',
+    sendTime: '',
+    myAddress:'',
+    myName:'',
+    myPhone:'',
+    sendFee:5,
+    discount:0,
+    totalMoney:0,
     avatarUrl: "",
     nickName: "",
     cartData:'',
@@ -50,8 +88,12 @@ export default class Index extends wepy.page {
 
   onLoad(options) {
     let that = this;
-    this.cartData =this.$parent.globalData.cartData;
+    that.cartData =this.$parent.globalData.cartData;
     // that.getActivityDetail(options.groupId);
+    that.totalMoney = that.totalMoney+that.sendFee;
+    for (let i = 0; i < that.cartData.length; i++){
+      that.totalMoney += Number(that.cartData[i].cartNum)* Number(that.cartData[i].price)
+    }
   }
   onShow(){
     let that = this;
@@ -76,7 +118,62 @@ export default class Index extends wepy.page {
     that.$apply();
   }
   methods = {
-
+    submitOrder(){
+      let obj={
+        remarks:this.remarks,
+        sendTime: this.sendTime,
+        myAddress:this.myAddress,
+        myName:this.myName,
+        myPhone:this.myPhone,
+        totalMoney:this.totalMoney,
+        cartData:this.cartData
+      }
+      console.log(JSON.stringify(obj));
+      wepy.navigateTo({
+                url: "/pages/pay_success?orderNo=878676"
+      })
+    },
+    chooseAddress(){
+      let that = this;
+      wx.chooseAddress({
+        success: function (res) {
+          that.myAddress=res.provinceName+res.cityName+res.countyName+res.detailInfo;
+          that.myName=res.userName;
+          that.myPhone=res.telNumber;
+          that.$apply();
+        }
+      })
+    },
+    sendTimeChange(e){
+      this.sendTime = e.detail.value;
+      this.$apply();
+    },
+    myAddressChange(e){
+      this.myAddress = e.detail.value;
+      this.$apply();
+    },
+    changeInput(e){
+      let index=e.currentTarget.dataset.index;
+      console.log(index,e.detail);
+      this.cartData[index].remark = e.detail.value;
+      this.$apply();
+    },
+    changeInputRem(e){
+      this.remarks = e.detail.value;
+      this.$apply();
+    },
+    changeFocus(e){
+      let index=e.currentTarget.dataset.index;
+      console.log(index);
+      this.cartData[index].status = true;
+      this.$apply();
+    },
+    closeFocus(e){
+      let index=e.currentTarget.dataset.index;
+      console.log(index);
+      this.cartData[index].status = false;
+      this.$apply();
+    }
   }
   events = {
 
@@ -88,18 +185,41 @@ export default class Index extends wepy.page {
 .box-order{
   background-color: #f5f5f5;
   position: fixed;
+  overflow-y:scroll;
+  overflow-x:hidden;
   height: 100%;
   width: 100%;
   display: flex;
+  margin-bottom: 110rpx;
   flex-direction: column;
   .box-a{
     width: 750rpx;
-    height: 110rpx;
-    line-height: 110rpx;
-    padding: 0 35rpx;
+    height: 120rpx;
+    line-height: 50rpx;
+    padding: 10rpx 35rpx;
     background-color: #fff;
     color: #333;
-    border-bottom: 4rpx solid #dddddd;
+    box-sizing: border-box;
+    border-bottom: 6rpx solid #f5a000;
+    .box-aa{
+      font-size: 26rpx;
+      color: #c2c2c2;
+      margin-left: 10rpx;
+      .box-aab{
+        margin-left: 10rpx;
+      }
+    }
+    .box-ab{
+      line-height: 120rpx;
+      margin-left: 10rpx;
+    }
+    .box-aba{
+      line-height: 110rpx;
+      color: #f5a000;
+      font-size: 50rpx;
+      float: left;
+      font-weight: 600;
+    }
   }
   .box-b{
     width: 750rpx;
@@ -108,6 +228,11 @@ export default class Index extends wepy.page {
     padding: 0 35rpx;
     background-color: #fff;
     color: #333;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    box-sizing: border-box;
+
   }
   .box-c{
     flex: 1;
@@ -129,12 +254,15 @@ export default class Index extends wepy.page {
             font-size: 30rpx;
             color: #333;
             .box-caaba{
-            padding-left:20rpx;
+              padding-left:20rpx;
             }
           }
           .box-caaba{
             font-size: 26rpx;
             color: #c2c2c2;
+            height:50rpx;
+            line-height:50rpx;
+            margin:15rpx 0;
           }
           
           .box-caabb{
@@ -187,8 +315,28 @@ export default class Index extends wepy.page {
     line-height: 110rpx;
     background-color: #fff;
     padding: 0 36rpx;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    .box-da{
+      width: 600rpx;
+      font-size: 28rpx;
+      color: #c2c2c2;
+      height:60rpx;
+      line-height:60rpx;
+      margin:20rpx 0;
+    }
+    .arrow{
+      color: #cccccc;
+      font-size: 32rpx;
+      margin-left: 10rpx;
+    }
   }
   .box-e{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
@@ -203,6 +351,17 @@ export default class Index extends wepy.page {
       font-size: 46rpx;
       color: #cc4444;
       font-weight: 600;
+    }
+    .box-ec{
+      font-size: 32rpx;
+      border-radius: 50rpx;
+      color: #fff;
+      height: 75rpx;
+      line-height: 75rpx;
+      text-align: center;
+      width: 215rpx;
+      margin: 17.5rpx 0;
+      background-color: #ccc;
     }
     .box-eb{
       font-size: 32rpx;
