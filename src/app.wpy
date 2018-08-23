@@ -11,8 +11,8 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/index',
-      'pages/order_list',
       'pages/coffee',
+      'pages/order_list',
       'pages/authorize',
       'pages/fight',
       'pages/cart',
@@ -35,7 +35,6 @@ export default class extends wepy.app {
       navigationBarTextStyle: 'black',
       enablePullDownRefresh: false,
       backgroundColor: '#FFFFFF'
-
     },
     "tabBar": {
       "color": "#999999",
