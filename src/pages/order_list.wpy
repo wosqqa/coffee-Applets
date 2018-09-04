@@ -13,7 +13,8 @@
         </view>
       </view>
       <view class="box-b">到达时间
-        <picker mode="time" value="{{sendTime}}" start="09:00" end="21:00" @change="sendTimeChange">
+        <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" 
+        value="{{multiIndex}}" range="{{multiArray}}" @change="sendTimeChange">
           <view class="picker">
             <text wx:if="{{sendTime==''}}">请选择配送时间点</text>
             <text wx:else>尽快在 {{sendTime}} 左右送达</text>
@@ -27,11 +28,11 @@
               <view class="box-caa">
                 <view class="box-caab">{{item.name}}<text class="box-caaba">x{{item.cartNum}}</text></view> <view class="box-caab">￥{{item.price}}</view>
               </view>
-              <view class="box-caa">
+              <!-- <view class="box-caa">
                 <input class="box-caaba" placeholder-style='font-size: 26rpx;color: #c2c2c2;' placeholder="输入想要的口味/配件" wx:if="{{item.status}}" 
                 focus="{{item.status}}" @input='changeInput' @blur="closeFocus" maxlength="20" @confirm ="closeFocus" data-index="{{index}}"/>
                 <text class="box-caaba" wx:else>{{item.remark}}</text>
-              <view class="box-caabb" @tap="changeFocus" data-index="{{index}}">口味定制</view></view>
+              <view class="box-caabb" @tap="changeFocus" data-index="{{index}}">口味定制</view></view> -->
           </view>
           <view class="box-cb"> 
             <view class="box-cba">配送费</view>
@@ -72,6 +73,7 @@ export default class Index extends wepy.page {
 
   data = {
     goodsDeatil: '',
+    multiArray: [['今天', '明天', '后天', '大后天'], ['8:00-8:30','9:00-9:30','10:00-10:30','11:00-11:30',]],
     remarks:'',
     sendTime: '',
     myAddress:'',
@@ -242,7 +244,8 @@ export default class Index extends wepy.page {
       border-radius: 10rpx;
       padding: 20rpx;
       .box-ca{
-        height: 160rpx;
+        // height: 160rpx;
+        height: 90rpx;
         padding: 10rpx;
         .box-caa{
           display: flex;

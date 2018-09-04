@@ -49,7 +49,7 @@
     </view>
     <view class="box-c" wx:if="{{cartData.length>0}}">
         <view class="box-ca"  @tap="showCartInfo" >
-           <image class="box-ca-img" src="https://img.alicdn.com/imgextra/i1/2053469401/TB2pbpIEVmWBuNjSspdXXbugXXa-2053469401.jpg" />
+           <image class="box-ca-img" src="https://wxapp.lyancoffee.com/mainbuy/goods_car_icon.png" />
            <view class="box-ca-t" >{{cartData.length}}</view>
         </view>
         <view class="box-cb">

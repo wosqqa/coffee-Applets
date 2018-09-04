@@ -18,7 +18,7 @@ const assistList = (params) => wxRequest(params, apiMall + '/wxa-api/api/wish/ca
 const orderList = (params) => wxRequest(params, apiMall + '/wxa-api/api/group/v1/record/list');//拼团订单列表
 const mainGetgoods = (params) => wxRequest(params, apiMall + '/wxa-api/api/mainbuyapi/getgoods');//首页商品
 const detailVirtual = (params) => wxRequest(params, apiMall + '/wxa-api/api/group/record/detail/virtual');//参与拼团
-const toPay = (params) => wxRequest(params, apiMall + '/wxa-api/api/group/record/create');//拼团支付
+const toPay = (params) => wxRequest(params, apiMall + '/wxa-api/api/group/record/create');//支付统一下单
 
 export default {
   cafeRule,
