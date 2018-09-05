@@ -13,7 +13,7 @@
         </view>
       </view>
       <view class="box-b">到达时间
-        <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" 
+        <picker mode="multiSelector" bindcolumnchange="sendTimeColumnChange" 
         value="{{multiIndex}}" range="{{multiArray}}" @change="sendTimeChange">
           <view class="picker">
             <text wx:if="{{sendTime==''}}">请选择配送时间点</text>
@@ -62,6 +62,8 @@
 <script>
 import wepy from 'wepy';
 import api from '@/api/api';
+import tip from '@/utils/tip'
+import util from '@/utils/util'
 export default class Index extends wepy.page {
   config = {
     navigationBarTitleText: '确认订单',
@@ -73,7 +75,11 @@ export default class Index extends wepy.page {
 
   data = {
     goodsDeatil: '',
-    multiArray: [['今天', '明天', '后天', '大后天'], ['8:00-8:30','9:00-9:30','10:00-10:30','11:00-11:30',]],
+    multiArray: [['今天', '明天', '后天', '大后天'],
+     ['8:00-8:30','8:30-9:00','9:00-9:30','9:30-10:00',
+     '10:00-10:30','10:30-11:00','11:00-11:30','11:30-12:00','12:00-12:30','12:30-13:00','13:00-13:30'
+     ,'13:30-14:00','14:00-14:30','14:30-15:00','15:00-15:30','15:30-16:00','16:00-16:30','16:30-17:00',
+     '17:00-17:30','17:30-18:00','18:00-18:30','18:30-19:00','19:00-19:30','19:30-20:00','20:00-20:30','20:30-21:00']],
     remarks:'',
     sendTime: '',
     myAddress:'',
@@ -91,11 +97,23 @@ export default class Index extends wepy.page {
   onLoad(options) {
     let that = this;
     that.cartData =this.$parent.globalData.cartData;
+    const myDate = new Date();
+    let day3 = util.getFormatString('MM月dd日',2);
+    let day4 = util.getFormatString('MM月dd日',3);
+    let day5 = util.getFormatString('MM月dd日',4);
+    let dateArr= ['今天','明天',day3,day4,day5];
+    that.multiArray.splice(0,1,dateArr);
+    console.log(that.multiArray)
+    var min=myDate.getMinutes();
+    myDate.setMinutes(min+30);
+    var nowTime= myDate.getHours()+":"+myDate.getMinutes();
+    this.sendTime = nowTime;
     // that.getActivityDetail(options.groupId);
     that.totalMoney = that.totalMoney+that.sendFee;
     for (let i = 0; i < that.cartData.length; i++){
       that.totalMoney += Number(that.cartData[i].cartNum)* Number(that.cartData[i].price)
     }
+    that.$apply();
   }
   onShow(){
     let that = this;
@@ -120,20 +138,78 @@ export default class Index extends wepy.page {
     that.$apply();
   }
   methods = {
-    submitOrder(){
-      let obj={
-        remarks:this.remarks,
-        sendTime: this.sendTime,
-        myAddress:this.myAddress,
-        myName:this.myName,
-        myPhone:this.myPhone,
-        totalMoney:this.totalMoney,
-        cartData:this.cartData
+    async submitOrder(){
+      let that = this;
+      const json = await api.mainGetgoods({
+        query: {
+          remarks:that.remarks,
+          sendTime: that.sendTime,
+          myAddress:that.myAddress,
+          myName:that.myName,
+          myPhone:that.myPhone,
+          totalMoney:that.totalMoney,
+          cartData:that.cartData
+        }
+      });
+      // if (json.data.code == 200) {
+        this.orderNo = json.data.orderId;
+      // let userSpecialInfo = wepy.getStorageSync(USER_SPECICAL_INFO) || {};
+      // let openId = userSpecialInfo.openid;
+      let  openId = 'wxa_3_12_20_164056_9228826'
+      // const pay = await api.toPay({
+      //   query:{
+      //     openId: openId,
+      //     orderNo: orderNo
+      //   }
+      // });
+      const pay = {
+        "message": "成功",
+        "code": 200,
+        "data": {
+            "timeStamp": 1633976856,
+            "nonceStr": "f13cef718fa04b73ba71ef99dbad11c0",
+            "packageStr": "prepay_id=wx11164056422877515de206ce2259764791",
+            "signType": "MD5",
+            "paySign": "42126664E28BC651BA52D9F947983783",
+            "outTradeNo": "wxa_3_12_20_164056_9228826"
+        },
+        "msgType": 0
+    }
+      if (pay.code==200) {
+        //以下是微信支付
+        wx.requestPayment({
+          appId: openId,
+          timeStamp: pay.data.timeStamp,
+          nonceStr: pay.data.nonceStr,
+          package: pay.data.packageStr,
+          signType: 'MD5',
+          paySign: pay.data.paySign,
+          success: function (res) {
+            console.log('pay', res)
+            setTimeout(() => {
+              //支付成功 关闭loadding 跳转到支付成功页面
+              tip.loaded();
+              wepy.navigateTo({
+                  url: "/pages/pay_success?orderNo=878676"
+                })
+            }, 2000)
+          },
+          fail: function (res) {
+            tip.alert('支付失败');
+            setTimeout(() => {
+              wepy.navigateTo({
+                  url: "/pages/pay_success?orderNo=878676"
+                })
+            }, 2000)
+          }
+        })
+      } else {
+        tip.alert('支付失败');
       }
-      console.log(JSON.stringify(obj));
-      wepy.navigateTo({
-                url: "/pages/pay_success?orderNo=878676"
-      })
+      // } else {
+      //   that.error(json.data.message)
+      // }
+
     },
     chooseAddress(){
       let that = this;
@@ -147,8 +223,14 @@ export default class Index extends wepy.page {
       })
     },
     sendTimeChange(e){
-      this.sendTime = e.detail.value;
+      console.log(e.detail)
+      let day = this.multiArray[0][e.detail.value[0]]
+      let time = this.multiArray[1][e.detail.value[1]]
+      this.sendTime = day + time;
       this.$apply();
+    },
+    sendTimeColumnChange(e){//选择列
+      console.log('修改的列为', e.detail.column, '，值为', e.detail.value);
     },
     myAddressChange(e){
       this.myAddress = e.detail.value;

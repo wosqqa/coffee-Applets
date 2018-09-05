@@ -127,6 +127,47 @@ function convertStarArray(score) {
   }
   return arr
 }
+//时间转换为日期-add 当前日期加几天
+function getFormatString(type,add){
+  var d = new Date();
+  if(add>0){
+    d.setDate(d.getDate()+add);  
+  }
+  var curr_date = d.getDate();
+  var curr_month = d.getMonth() + 1; 
+  var curr_year = d.getFullYear();
+  String(curr_month).length < 2 ? (curr_month = "0" + curr_month): curr_month;
+  String(curr_date).length < 2 ? (curr_date = "0" + curr_date): curr_date;
+  let day;
+  if(type == 'yyyyMMdd' ){
+    day = curr_year + "" + curr_month +""+ curr_date;
+    return day;
+  }else if(type == 'MMdd' ){
+    day = curr_month +""+ curr_date;
+    return day;
+  }else if(type == 'yyyy-MM-dd' ){
+    day = curr_year + "-" + curr_month +"-"+ curr_date;
+    return day;
+  }else if(type == 'MM-dd' ){
+    day = curr_year + "" + curr_month +""+ curr_date;
+    return day;
+  }else if(type == 'yyyy/MM/dd' ){
+    day = curr_year + "/" + curr_month +"/"+ curr_date;
+    return day;
+  }else if(type == 'MM/dd' ){
+    day = curr_month +"/"+ curr_date;
+    return day;
+  }else if(type == 'yyyy年MM月dd日' ){
+    day = curr_year + "年" + curr_month +"月"+ curr_date+'日';
+    return day;
+  }else if(type == 'MM月dd日' ){
+    day = curr_month +"月"+ curr_date+'日';
+    return day;
+  }else{
+    return day;
+  }
+  
+} 
 module.exports = {
   getCurrentTime: getCurrentTime,
   objLength: objLength,
@@ -138,5 +179,6 @@ module.exports = {
   div: div,
   mul: mul,
   accAdd: accAdd,
-  convertStarArray: convertStarArray
+  convertStarArray: convertStarArray,
+  getFormatString: getFormatString
 }
