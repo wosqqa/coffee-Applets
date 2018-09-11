@@ -1,50 +1,13 @@
 <template>
   <view class="box-order">
      <scroll-view scroll-y style="margin-bottom:110rpx;">
-      <view class="box-a" wx:if="{{myAddress==''}}" @tap="chooseAddress">
-        <text class="box-aba">+</text>
-        <view class="box-ab">添加配送地址信息</view>
-      </view>
-      <view class="box-a" wx:else>
-        {{myAddress}}
-        <view class="box-aa">
-          <text >{{myName}}</text>
-          <text class="box-aab">{{myPhone}}</text>
-        </view>
-      </view>
-      <view class="box-b">到达时间
-        <picker mode="multiSelector" bindcolumnchange="sendTimeColumnChange" 
-        value="{{multiIndex}}" range="{{multiArray}}" @change="sendTimeChange">
-          <view class="picker">
-            <text wx:if="{{sendTime==''}}">请选择配送时间点</text>
-            <text wx:else>尽快在 {{sendTime}} 左右送达</text>
-           
-          </view>
-        </picker>
-      </view>
+      <image src="https://images.lyancafe.com/provider/1535882660734.jpg" class="slide-image" />
       <view class="box-c">
         <view class="box-cl">
           <view class="box-ca" wx:for="{{cartData}}" wx:key="index">
               <view class="box-caa">
                 <view class="box-caab">{{item.name}}<text class="box-caaba">x{{item.cartNum}}</text></view> <view class="box-caab">￥{{item.price}}</view>
               </view>
-              <!-- <view class="box-caa">
-                <input class="box-caaba" placeholder-style='font-size: 26rpx;color: #c2c2c2;' placeholder="输入想要的口味/配件" wx:if="{{item.status}}" 
-                focus="{{item.status}}" @input='changeInput' @blur="closeFocus" maxlength="20" @confirm ="closeFocus" data-index="{{index}}"/>
-                <text class="box-caaba" wx:else>{{item.remark}}</text>
-              <view class="box-caabb" @tap="changeFocus" data-index="{{index}}">口味定制</view></view> -->
-          </view>
-          <view class="box-cb"> 
-            <view class="box-cba">配送费</view>
-            <view class="box-cba">￥{{sendFee}}</view>
-          </view>
-          <view class="box-cb" wx:if='{{discount>0}}'> 
-            <view class="box-cba">优惠</view>
-            <view class="box-cbe">￥{{discount}} <text class="arrow">&gt;</text></view>
-          </view>
-          <view class="box-cb"> 
-            <view class="box-cbc">总计￥{{totalMoney}}</view>
-            <view class="box-cbb">还需支付<text class="box-cbba">￥{{totalMoney-discount}}</text></view>
           </view>
         </view>
       </view>
@@ -54,9 +17,9 @@
         <text class="arrow">&gt;</text>
       </view>
       </scroll-view>
-      <view class="box-e"><view  class="box-ea">￥{{totalMoney-discount}}</view>
+      <!-- <view class="box-e"><view  class="box-ea">￥{{totalMoney-discount}}</view>
       <view wx:if="{{myAddress==''}}" class="box-ec">微信支付</view>
-      <view wx:else class="box-eb" @tap='submitOrder'>微信支付</view></view>
+      <view wx:else class="box-eb" @tap='submitOrder'>微信支付</view></view> -->
   </view>
 </template>
 <script>
@@ -97,16 +60,6 @@ export default class Index extends wepy.page {
   onLoad(options) {
     let that = this;
     that.cartData =this.$parent.globalData.cartData;
-    const myDate = new Date();
-    let day3 = util.getFormatString('MM月dd日',2);
-    let day4 = util.getFormatString('MM月dd日',3);
-    let day5 = util.getFormatString('MM月dd日',4);
-    let dateArr= ['今天','明天',day3,day4,day5];
-    that.multiArray.splice(0,1,dateArr);
-    console.log(that.multiArray)
-    var min=myDate.getMinutes();
-    myDate.setMinutes(min+30);
-    var nowTime= myDate.getHours()+":"+myDate.getMinutes();
     this.sendTime = nowTime;
     // that.getActivityDetail(options.groupId);
     that.totalMoney = that.totalMoney+that.sendFee;
@@ -190,7 +143,7 @@ export default class Index extends wepy.page {
               //支付成功 关闭loadding 跳转到支付成功页面
               tip.loaded();
               wepy.navigateTo({
-                  url: "/pages/order_detail?orderNo=878676"
+                  url: "/pages/pay_success?orderNo=878676"
                 })
             }, 2000)
           },
@@ -198,7 +151,7 @@ export default class Index extends wepy.page {
             tip.alert('支付失败');
             setTimeout(() => {
               wepy.navigateTo({
-                  url: "/pages/order_detail?orderNo=878676"
+                  url: "/pages/pay_success?orderNo=878676"
                 })
             }, 2000)
           }
@@ -276,6 +229,10 @@ export default class Index extends wepy.page {
   display: flex;
   margin-bottom: 110rpx;
   flex-direction: column;
+  .slide-image{
+    width: 100%;
+    height: 320rpx;
+  }
   .box-a{
     width: 750rpx;
     height: 120rpx;

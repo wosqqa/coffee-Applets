@@ -13,6 +13,7 @@ export default class extends wepy.app {
       'pages/index',
       'pages/coffee',
       'pages/order_list',
+      'pages/order_detail',
       'pages/authorize',
       'pages/fight',
       'pages/cart',
